@@ -22,6 +22,9 @@
 	--TextInverted: rgb(0, 0, 0);
 	--Borders: rgb(255, 255, 255);
 
+	--Primaryrgb: 255, 255, 255;
+	--Secondaryrgb: 0, 0, 0;
+
 }
 
 
@@ -74,7 +77,7 @@
 	font-size: var(--MenuTabFontSize);
 
 	backdrop-filter: blur(10px);
-	background: linear-gradient(to bottom, rgba(var(--Primary),0) 50%, rgba(var(--Secondary),0.8) 50%) top;
+	background: linear-gradient(to bottom, rgba(var(--Primaryrgb),0) 50%, rgba(var(--Secondaryrgb),0.8) 50%) top;
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
 	font-weight: Bold;
@@ -203,6 +206,8 @@ body {
 
 
 #main {
+	
+	height: 500vh;
 	padding-top: 10vh;
 	display: flex;
     justify-content: center;
