@@ -14,10 +14,13 @@
 	--Text1: var(--Gray3);
 	--TextInverted: var(--Gray0_5);
 
-	--MenuTabFontSize : 1.3em;
+	--MenuTabFontSize : 2em;
 
-	--PrimaryRGB: rgb(227, 227, 227);
-	--SecondaryRGB: rgb(255, 81, 0);
+	--Primary: rgb(255, 255, 255);
+	--Secondary: rgb(0, 0, 0);
+	--Text: rgb(255, 255, 255);
+	--TextInverted: rgb(0, 0, 0);
+	--Borders: rgb(255, 255, 255);
 
 }
 
@@ -38,11 +41,11 @@
 	display: flexbox;
 	width: 100vw;
 	
-	background-color: hsl(0 0% 100% / 0);
+	background-color: hsla(0, 76%, 45%, 0);
 	backdrop-filter: blur(10px);
 	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
 	
-	border-bottom-color: var(--Border1);
+	border-bottom-color: var(--Borders);
 	border-bottom-width: 0.1vh;
 	border-bottom-style: solid;
 }
@@ -64,14 +67,14 @@
 .MenuTab {
 	box-sizing: border-box;
 	display: inline-block;
-	color: var(--Text1);
+	color: var(--Text);
 	text-align: center;
 	padding: 10px 45px;
 	text-decoration: none;
 	font-size: var(--MenuTabFontSize);
 
 	backdrop-filter: blur(10px);
-	background: linear-gradient(to bottom, rgba(var(--PrimaryRGB),0) 50%, rgba(var(--SecondaryRGB),0.8) 50%) top;
+	background: linear-gradient(to bottom, rgba(var(--Primary),0) 50%, rgba(var(--Secondary),0.8) 50%) top;
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
 	font-weight: Bold;
@@ -79,7 +82,7 @@
 .MenuTab-noHoverAfterClick {
 	box-sizing: border-box;
 	display: inline-block;
-	color: var(--Text1);
+	color: var(--Text);
 	text-align: center;
 	padding: 10px 45px;
 	text-decoration: none;
@@ -93,26 +96,26 @@
 
 .MenuTab:hover {
 	background-position: bottom;
-	color: var(--TextInverted);
+	color: var(--Text);
 
 	transition: 0.3s cubic-bezier(.77,.12,.16,.95);
-	box-shadow: var(--Border1) 0px 0px 0px 1px inset ; 
+	box-shadow: var(--Borders) 0px 0px 0px 1px inset ; 
 }
 
 .MenuTab.Special:hover
 {
 	background-position: bottom;
-	color: rgb(255, 255, 255);
+	color: var(--Primary);
 
 	transition: 0.3s cubic-bezier(.77,.12,.16,.95);
-	box-shadow: rgb(248, 248, 248) 0px 0px 0px 1px inset ; 
+	box-shadow: var(--Primary) 0px 0px 0px 1px inset ; 
 }
 
 .MenuTab-noHoverAfterClick:hover {
 	
 	box-sizing: border-box;
 	display: inline-block;
-	color: var(--Text1);
+	color: var(--Text);
 	text-align: center;
 	padding: 10px 45px;
 	text-decoration: none;
@@ -131,8 +134,8 @@
 }
 @keyframes flash {
 	0%	{
-			background: var(--PrimaryRGB);
-			color: rgb(0, 0, 0);
+			background: var(--Primary);
+			color: var(--TextInverted);
 		}
 
 	100%{
@@ -152,7 +155,7 @@
   height: 1px;
   bottom: 0;
   left: 0;
-  background-color: var(--Border1);
+  background-color: var(--Borders);
   transform-origin: top;
   transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
 }
@@ -165,7 +168,7 @@
   height: 1px;
   bottom: 0;
   left: 0;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--Primary);
   transform-origin: top;
   transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
 }
@@ -185,7 +188,7 @@
 
 
 body {
-	background-color: var(--Secondary2);
+	background-color: var(--Secondary);
 	padding: 0px;
 	margin: 0px;
 }
@@ -237,7 +240,8 @@ body {
 /******************** Footer CSS ***********************/
 .footer {
 	background-color: var(--Secondary); 
-	height: 25vh; color: var(--FlashColor); 
+	height: 25vh; 
+	color: var(--Primary); 
 	font-size: 75px;
 	padding-left: 1vw;
 	line-height: 0.5;
