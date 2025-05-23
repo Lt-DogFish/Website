@@ -5,6 +5,30 @@ const Profile = document.getElementById("profile");
 
 const Scroll = document.getElementById("scroll");
 
+
+var card1 = document.getElementById("card1");
+function setCard1(){
+	card1 = document.getElementById("card1");
+	card1.addEventListener("click", function() {fetchAndSetInnerHtml("HTML/firstProject.html"); 		trackFadeInElementsNew();});
+}
+
+
+// Observes Main for changes and calls functions based on document main changes
+const targetNode = document.getElementById('main');
+// Options for the observer (which mutations to observe)
+const config = { childList: true, subtree: true };
+
+const observerCallFunc = function () {
+	setCard1();
+
+	}
+const observer = new MutationObserver(observerCallFunc);
+observer.observe(targetNode, config);
+
+
+
+
+
 fetchAndSetInnerHtml("HTML/homePage.html");
 //trackFadeInElements();
 
@@ -109,7 +133,7 @@ container.addEventListener('scroll', () => {
 
 Home.addEventListener(		"click", function() {fetchAndSetInnerHtml("HTML/homePage.html"); 		trackFadeInElementsNew();});
 /*Profile.addEventListener(	"click", function() {fetchAndSetInnerHtml("HTML/profilePage.html");	 	trackFadeInElementsNew();});*/
-Projects.addEventListener(	"click", function() {fetchAndSetInnerHtml("HTML/projectsPage.html"); 	trackFadeInElementsNew();});
+/*Projects.addEventListener(	"click", function() {fetchAndSetInnerHtml("HTML/projectsPage.html"); 	trackFadeInElementsNew();});*/
 
 
 
