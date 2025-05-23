@@ -12,10 +12,7 @@
 
 
 .home-body {
-	height: 500vh;
-	width: 100%;
 	justify-items: center;
-
 }
 
 .scroll-tracks-conainer {
@@ -274,7 +271,8 @@
 }
 
 .drawer-grid {
-	align-content: flex-start;
+	display: flexbox;
+	align-content: flex;
 
 
 }

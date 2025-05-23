@@ -200,6 +200,7 @@ body {
 
 
 #main {
+	padding-top: 10vh;
 	display: flex;
     justify-content: center;
     flex-wrap: nowrap;
