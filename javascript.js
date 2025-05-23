@@ -1,7 +1,7 @@
 const Main = document.getElementById("main");
 const Home = document.getElementById("home");
 const Profile = document.getElementById("profile");
-const Projects = document.getElementById("projects");
+/* const Projects = document.getElementById("projects");*/
 
 const Scroll = document.getElementById("scroll");
 

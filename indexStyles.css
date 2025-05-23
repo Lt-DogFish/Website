@@ -16,8 +16,8 @@
 
 	--MenuTabFontSize : 1.3em;
 
-	--PrimaryRGB: 227, 227, 227;
-	--SecondaryRGB: 84, 84, 84;
+	--PrimaryRGB: rgb(227, 227, 227);
+	--SecondaryRGB: rgb(255, 81, 0);
 
 }
 
@@ -35,40 +35,38 @@
 .Shelf	{
 	z-index: 100;
 	position: fixed;
+	display: flexbox;
 	width: 100vw;
-	height: 10vh;
+	
 	background-color: hsl(0 0% 100% / 0);
 	backdrop-filter: blur(10px);
-	box-shadow: var(--Border1) 0px 0px 0px 2px inset ;
+	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
+	
+	border-bottom-color: var(--Border1);
+	border-bottom-width: 0.1vh;
+	border-bottom-style: solid;
 }
 
 
 
 .TopBar {
 	z-index: 101;
-	position: absolute;
-	bottom: 0%;
-	left: 2.5%;
+	
+	display: flexbox;
+	box-sizing: border-box;
+	
+	
 	overflow:hidden;
 	font-family: 'Helvetica Neue';
 }
 
 
-
-
-
-
-
-
-
-
 .MenuTab {
-	float: left;
-	display: block;
+	box-sizing: border-box;
+	display: inline-block;
 	color: var(--Text1);
 	text-align: center;
 	padding: 10px 45px;
-	margin-bottom: 2px;
 	text-decoration: none;
 	font-size: var(--MenuTabFontSize);
 
@@ -79,12 +77,11 @@
 	font-weight: Bold;
 }
 .MenuTab-noHoverAfterClick {
-	float: left;
-	display: block;
+	box-sizing: border-box;
+	display: inline-block;
 	color: var(--Text1);
 	text-align: center;
 	padding: 10px 45px;
-	margin-bottom: 2px;
 	text-decoration: none;
 	font-size: var(--MenuTabFontSize);
 
@@ -99,25 +96,25 @@
 	color: var(--TextInverted);
 
 	transition: 0.3s cubic-bezier(.77,.12,.16,.95);
-	box-shadow: var(--Border1) 0px 0px 0px 2px inset ; 
+	box-shadow: var(--Border1) 0px 0px 0px 1px inset ; 
 }
 
 .MenuTab.Special:hover
 {
 	background-position: bottom;
-	color: rgb(255, 230, 88);
+	color: rgb(255, 255, 255);
 
 	transition: 0.3s cubic-bezier(.77,.12,.16,.95);
-	box-shadow: rgb(255, 230, 88) 0px 0px 0px 2px inset ; 
+	box-shadow: rgb(248, 248, 248) 0px 0px 0px 1px inset ; 
 }
 
 .MenuTab-noHoverAfterClick:hover {
-	float: left;
-	display: block;
+	
+	box-sizing: border-box;
+	display: inline-block;
 	color: var(--Text1);
 	text-align: center;
 	padding: 10px 45px;
-	margin-bottom: 2px;
 	text-decoration: none;
 	font-size: var(--MenuTabFontSize);
 
@@ -129,11 +126,13 @@
 
 .button.clicked {
 	animation: flash 0.1s ;
+
 	/*pointer-events: none;*/
 }
 @keyframes flash {
 	0%	{
 			background: var(--PrimaryRGB);
+			color: rgb(0, 0, 0);
 		}
 
 	100%{
@@ -150,7 +149,7 @@
   position: absolute;
   width: 100%;
   transform: scaleX(0);
-  height: 2px;
+  height: 1px;
   bottom: 0;
   left: 0;
   background-color: var(--Border1);
@@ -163,10 +162,10 @@
   position: absolute;
   width: 100%;
   transform: scaleX(0);
-  height: 2px;
+  height: 1px;
   bottom: 0;
   left: 0;
-  background-color: rgb(255, 230, 88);
+  background-color: rgb(255, 255, 255);
   transform-origin: top;
   transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
 }
