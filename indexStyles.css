@@ -1,0 +1,288 @@
+@import url("/CSS/colors.css");
+
+* {
+	box-sizing: content-box;
+	
+}
+
+:root {
+	--Primary: var(--Gray0_5);
+	--Secondary: var(--Gray3);
+	--Secondary2:  var(--Gray0_5);
+	--Accent:	var(--Gray3);
+	--Border1: var(--Gray3);
+	--Text1: var(--Gray3);
+	--TextInverted: var(--Gray0_5);
+
+	--MenuTabFontSize : 1.3em;
+
+	--PrimaryRGB: 227, 227, 227;
+	--SecondaryRGB: 84, 84, 84;
+
+}
+
+
+
+
+
+
+
+
+
+
+/* Nav Bar*/
+
+.Shelf	{
+	z-index: 100;
+	position: fixed;
+	width: 100vw;
+	height: 10vh;
+	background-color: hsl(0 0% 100% / 0);
+	backdrop-filter: blur(10px);
+	box-shadow: var(--Border1) 0px 0px 0px 2px inset ;
+}
+
+
+
+.TopBar {
+	z-index: 101;
+	position: absolute;
+	bottom: 0%;
+	left: 2.5%;
+	overflow:hidden;
+	font-family: 'Helvetica Neue';
+}
+
+
+
+
+
+
+
+
+
+
+.MenuTab {
+	float: left;
+	display: block;
+	color: var(--Text1);
+	text-align: center;
+	padding: 10px 45px;
+	margin-bottom: 2px;
+	text-decoration: none;
+	font-size: var(--MenuTabFontSize);
+
+	backdrop-filter: blur(10px);
+	background: linear-gradient(to bottom, rgba(var(--PrimaryRGB),0) 50%, rgba(var(--SecondaryRGB),0.8) 50%) top;
+	background-size: 100% 200%;
+	transition: .3s cubic-bezier(.77,.12,.16,.95);
+	font-weight: Bold;
+}
+.MenuTab-noHoverAfterClick {
+	float: left;
+	display: block;
+	color: var(--Text1);
+	text-align: center;
+	padding: 10px 45px;
+	margin-bottom: 2px;
+	text-decoration: none;
+	font-size: var(--MenuTabFontSize);
+
+	
+	background-size: 100% 200%;
+	transition: .3s cubic-bezier(.77,.12,.16,.95);
+	font-weight: Bold;
+}
+
+.MenuTab:hover {
+	background-position: bottom;
+	color: var(--TextInverted);
+
+	transition: 0.3s cubic-bezier(.77,.12,.16,.95);
+	box-shadow: var(--Border1) 0px 0px 0px 2px inset ; 
+}
+
+.MenuTab.Special:hover
+{
+	background-position: bottom;
+	color: rgb(255, 230, 88);
+
+	transition: 0.3s cubic-bezier(.77,.12,.16,.95);
+	box-shadow: rgb(255, 230, 88) 0px 0px 0px 2px inset ; 
+}
+
+.MenuTab-noHoverAfterClick:hover {
+	float: left;
+	display: block;
+	color: var(--Text1);
+	text-align: center;
+	padding: 10px 45px;
+	margin-bottom: 2px;
+	text-decoration: none;
+	font-size: var(--MenuTabFontSize);
+
+	
+	background-size: 100% 200%;
+	transition: .3s cubic-bezier(.77,.12,.16,.95);
+	font-weight: Bold;
+}
+
+.button.clicked {
+	animation: flash 0.1s ;
+	/*pointer-events: none;*/
+}
+@keyframes flash {
+	0%	{
+			background: var(--PrimaryRGB);
+		}
+
+	100%{
+			/*background: linear-gradient(to bottom, var(--FlashColor) 50%, var(--FlashColor) 50%) top*/
+		}
+}
+
+.ElementWithUnderlineAnim {
+	display: inline-block;
+	position: relative;
+}
+.ElementWithUnderlineAnim::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--Border1);
+  transform-origin: top;
+  transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
+}
+
+.ElementWithUnderlineAnim.Special::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(255, 230, 88);
+  transform-origin: top;
+  transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
+}
+
+.ElementWithUnderlineAnim:hover::after {
+	transform: scaleX(1);
+	transform-origin: bottom;
+}
+
+
+
+
+
+
+
+
+
+
+body {
+	background-color: var(--Secondary2);
+	padding: 0px;
+	margin: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+#main {
+	display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+}
+#main {
+	flex: 1;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(1vh);
+    transition: opacity 0.3s cubic-bezier(.77,.12,.16,.95), transform 0.7s cubic-bezier(.77,.12,.16,.95);
+}
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0vh);
+}
+
+
+.scroll
+{
+	color: pink;
+}
+
+
+
+
+
+
+
+
+/******************** Footer CSS ***********************/
+.footer {
+	background-color: var(--Secondary); 
+	height: 25vh; color: var(--FlashColor); 
+	font-size: 75px;
+	padding-left: 1vw;
+	line-height: 0.5;
+	display: inline-flexbox; 
+    /*flex-direction: column;*/
+    justify-content: left;
+    align-items: start;
+	
+}
+
+
+
+
+
+
+
+
+
+
+/********************** Fonts *************************/
+.tekoFont {
+	font-family: "Teko", sans-serif;
+}
+.tiro-tamil-regular {
+	font-family: "Tiro Tamil", serif;
+	font-weight: 400;
+	font-style: normal;
+}
+.tiro-tamil-regular-italic {
+	font-family: "Tiro Tamil", serif;
+	font-weight: 400;
+	font-style: italic;
+}
+.tiro-devanagari-sanskrit-regular {
+	font-family: "Tiro Devanagari Sanskrit", serif;
+	font-weight: 400;
+	font-style: normal;
+}
+.tiro-devanagari-sanskrit-regular-italic {
+	font-family: "Tiro Devanagari Sanskrit", serif;
+	font-weight: 400;
+	font-style: italic;
+}
+.monoton-regular {
+	font-family: "Monoton", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}

@@ -1,0 +1,33 @@
+@import url("colors.css");
+
+
+:root
+{
+	--NeonOrange: #ff6d1f;
+	--Orange: #fc7449;
+	--Gray: #414141;
+	--Gray0_5: #ffffff;
+	/*--LightBeige: #ffffff;*/
+	/*--FlashColor: #caff45;*/
+	--FlashColor: #eac9aa;
+
+	--MudBrown: #896c67;
+	--PaleOrange: #ec8e75;
+	--ScotchBiege: #eac9aa;
+	--ScotchBiegeDrk: #b2987f;
+	--BananaYellow: #f6dda7;
+	--HamamamGreen: #82a18f;
+
+	--FlashColor : var(--ScotchBiege);
+
+	
+	--BaseLight1: #e6e0dc;
+	--Biege1: #c1ad9b;
+	--Biege2: #c6beb4;
+	--Gray1: #bebab6;
+	--Gray2: #b8b8b8;
+	--Gray3: #545454;
+
+
+	--Gray0_5: #e3e3e3;
+}
