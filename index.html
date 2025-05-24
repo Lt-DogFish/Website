@@ -42,4 +42,27 @@
 		</footer>
 	</body>
 	<script type = "module" src = "javascript.js"></script>
+
+	<!-- Highlight.js stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/stackoverflow-dark.min.css">
+
+    <!-- Core Highlight.js script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+    <!-- Language file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/csharp.min.js"></script>
+
+    <!-- Initialization -->
+    <script>
+		// Observes Main for changes and calls functions based on document main changes
+		const targetNode = document.getElementById('main');
+		// Options for the observer (which mutations to observe)
+		const config = { childList: true, subtree: true };
+		
+		const observerCallFunc = function () {
+			hljs.highlightAll();
+			}
+		const observer = new MutationObserver(observerCallFunc);
+		observer.observe(targetNode, config);
+	</script> 
 </html>
