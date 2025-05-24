@@ -1,12 +1,46 @@
-
-
-
-
-
-
-.project-page-body{
+.project-page-body
+{
 	display: block;
-	background-color: hotpink;
-	height: 500vh;
+	flex: content;
+	flex-wrap: wrap;
+	flex-direction: column;
+	background-color: #121212;
 	width: 100vw;
+
+	.code-segment
+	{
+		display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: row;
+
+		.sub-segments
+		{
+			border: 0px;
+			border-color: white;
+			border-radius: 1vh;
+
+			background-color: #242424;
+			width: 50vw;
+			height: 80vh;
+
+		}
+
+		.code-container
+		{
+			.code
+			{
+				background-color: black;
+				padding: 0px;
+			}
+		}
+
+		.code-description
+		{
+			color: white;
+
+			text-align: center;
+		}
+	}
 }
