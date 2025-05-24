@@ -12,7 +12,11 @@
 
 
 .home-body {
-	justify-items: center;
+	background: linear-gradient(to bottom, rgba(var(--Secondaryrgb),1) 0%, rgba(var(--Primaryrgb),1) 100%) top;
+	box-shadow:  var(--Primary) 0px 0px 100px 1px inset;
+	justify-items: left;
+	height: 100%;
+	width: 100%;
 }
 
 .scroll-tracks-conainer {
@@ -278,10 +282,20 @@
 }
 
 .card {
-	box-shadow: white 0px 0px 0px 2px inset;
+	color: var(--Text);
+	box-sizing: border-box;
+	display: inline-block;
+	box-shadow: var(--Borders) 0px 0px 0px 1px inset;
 	height: 30vw;
 	width: 30vw;
 	/*border: 1px solid rgb(225, 0, 255);  */
+	transition: .3s cubic-bezier(.77,.12,.16,.95);
+}
+
+.card:hover{
+	color: var(--Text);
+	box-shadow: var(--Borders) 0px 0px 0px 3px inset, var(--Primary) 0px 0px 20px 3px inset ;
+	transition: .3s cubic-bezier(.77,.12,.16,.95);
 }
 
 
