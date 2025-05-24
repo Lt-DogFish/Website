@@ -12,12 +12,17 @@
 
 
 .home-body {
-	background: linear-gradient(to bottom, rgba(var(--Primaryrgb),1) 0%, rgba(var(--Primaryrgb),1) 100%) top;
+	/*background: linear-gradient(to bottom, rgba(var(--Primaryrgb),1) 0%, rgba(var(--Primaryrgb),1) 100%) top;*/
 	/*box-shadow:  var(--Primary) 0px 0px 10px 2px inset;*/
 	justify-items: left;
 	height: 100%;
 	width: 100%;
-	background: radial-gradient(circle, transparent 70%, black 100%);
+	/*background: radial-gradient(circle, transparent 70%, black 100%);*/
+}
+
+.intro {
+	height: 100vh;
+
 }
 
 .scroll-tracks-conainer {
@@ -288,18 +293,22 @@
 	box-shadow: var(--Borders) 0px 0px 0px 1px inset;
 	height: 30vw;
 	width: 30vw;
-	background-color: rgba(var(--Primaryrgb),0.5);
+	background-color: rgba(var(--Cardrgb),0.1);
 	backdrop-filter: blur(5px);
 	/*border: 1px solid rgb(225, 0, 255);  */
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
 }
+
 
 .card:hover{
 	color: var(--Text);
 	/*box-shadow: var(--Borders) 0px 0px 0px 3px inset, var(--Primary) 0px 0px 20px 3px inset ;*/
 	box-shadow: var(--BordersInverted) 0px 0px 0px 3px inset;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
+	background-color: rgba(var(--Cardrgb),0.5);
 }
+
+
 
 .card.placeholder1{
 	width: 5vw;

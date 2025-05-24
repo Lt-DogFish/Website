@@ -23,12 +23,34 @@
 	--Borders: rgb(255, 255, 255);
 	--BordersInverted: rgb(36, 36, 36);
 
+	--CardColor: rgb(79, 79, 79);
+
 	--Primaryrgb: 255, 255, 255;
-	--Secondaryrgb: 0, 0, 0;
+	--Secondaryrgb: 36, 36, 36;
+	--Cardrgb: 255, 255, 255;
+}
+
+body {
+	background: radial-gradient(circle, transparent 50%, rgb(0, 0, 0) 100%);
 
 }
 
 
+.bg1 {
+	object-fit: cover; /* This is key for cropping */
+  	object-position: center; /* Adjust focus area (optional) */
+	filter: blur(0px);
+	margin: 0 auto;
+  	width: 100vw;
+  	height: 100vh;
+  	display: block;
+}
+
+.bg2 {
+  	width: 100%;
+  	height: auto;
+  	display: block;
+}
 
 
 
@@ -81,7 +103,8 @@
 	background: linear-gradient(to bottom, rgba(var(--Primaryrgb),0) 50%, rgba(var(--Primaryrgb),1) 50%) top;
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
-	font-weight: Bold;
+
+
 }
 .MenuTab-noHoverAfterClick {
 	box-sizing: border-box;
@@ -95,7 +118,7 @@
 	
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
-	font-weight: Bold;
+
 }
 
 .MenuTab:hover {
@@ -104,15 +127,17 @@
 
 	transition: 0.3s cubic-bezier(.77,.12,.16,.95);
 	box-shadow: var(--Borders) 0px 0px 0px 1px inset ; 
+
 }
 
 .MenuTab.Special:hover
 {
-	background-position: bottom;
-	color: var(--TextInverted);
 
-	transition: 0.3s cubic-bezier(.77,.12,.16,.95);
-	box-shadow: var(--Primary) 0px 0px 0px 1px inset ; 
+	color: gold;
+
+
+	box-shadow: gold 0px 0px 0px 1px inset ; 
+	
 }
 
 .MenuTab-noHoverAfterClick:hover {
@@ -128,7 +153,7 @@
 	
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
-	font-weight: Bold;
+
 }
 
 .button.clicked {
@@ -138,7 +163,7 @@
 }
 @keyframes flash {
 	0%	{
-			background: var(--Primary);
+			background: gold;
 			color: var(--TextInverted);
 		}
 
@@ -243,10 +268,18 @@ body {
 
 /******************** Footer CSS ***********************/
 .footer {
-	background-color: var(--Secondary); 
+	background-color: hsla(0, 76%, 45%, 0);
+	backdrop-filter: blur(10px);
+	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
+	
+	border-top-color: var(--Borders);
+	border-top-width: 0.1vh;
+	border-top-style: solid;
+
+	/*background-color: var(--Secondary); */
 	height: 25vh; 
 	color: var(--Primary); 
-	font-size: 75px;
+	font-size: 20px;
 	padding-left: 1vw;
 	line-height: 0.5;
 	display: inline-flexbox; 
@@ -293,4 +326,29 @@ body {
 	font-family: "Monoton", sans-serif;
 	font-weight: 400;
 	font-style: normal;
+}
+
+.oswald-name {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.limelight-regular {
+  font-family: "Limelight", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.aref-ruqaa-regular {
+  font-family: "Aref Ruqaa", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.aref-ruqaa-bold {
+  font-family: "Aref Ruqaa", serif;
+  font-weight: 700;
+  font-style: normal;
 }
