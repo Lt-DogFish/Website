@@ -17,40 +17,29 @@
 	--MenuTabFontSize : 2em;
 
 	--Primary: rgb(255, 255, 255);
-	--Secondary: rgb(36, 36, 36);
-	--Text: rgb(255, 255, 255);
-	--TextInverted: rgb(36, 36, 36);
-	--Borders: rgb(255, 255, 255);
-	--BordersInverted: rgb(36, 36, 36);
+	--Secondary: rgb(0, 0, 0);
+	--Text: rgb(0, 0, 0);
+	--TextInverted: rgb(255, 255, 255);
+	--Borders: rgb(0, 0, 0);
+	--BordersInverted: rgb(255, 255, 255);
 
-	--CardColor: rgb(79, 79, 79);
+	--CardColor: rgb(93, 93, 93);
 
 	--Primaryrgb: 255, 255, 255;
-	--Secondaryrgb: 36, 36, 36;
-	--Cardrgb: 255, 255, 255;
+	--Secondaryrgb: 0, 0, 0;
+	--Cardrgb: 93, 93, 93;
+	--BackgroundColorrgb1: 255, 255, 255 ;
+	--BackgroundColorrgb2: 255, 255, 255 ;
 }
 
 body {
-	background: radial-gradient(circle, transparent 50%, rgb(0, 0, 0) 100%);
+	/*background: radial-gradient(circle, transparent 50%, var(--BaseLight1) 100%);*/
+	background: linear-gradient(to bottom, rgba(var(--BackgroundColorrgb1),1) 50%, rgba(var(--BackgroundColorrgb2), 1) 50%) top;
 
 }
 
 
-.bg1 {
-	object-fit: cover; /* This is key for cropping */
-  	object-position: center; /* Adjust focus area (optional) */
-	filter: blur(0px);
-	margin: 0 auto;
-  	width: 100vw;
-  	height: 100vh;
-  	display: block;
-}
 
-.bg2 {
-  	width: 100%;
-  	height: auto;
-  	display: block;
-}
 
 
 
@@ -67,8 +56,8 @@ body {
 	display: flexbox;
 	width: 100vw;
 	
-	background-color: hsla(0, 76%, 45%, 0);
-	backdrop-filter: blur(10px);
+	background-color: rgba(var(--Primaryrgb), 0.1);
+	backdrop-filter: blur(5px);
 	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
 	
 	border-bottom-color: var(--Borders);
@@ -91,24 +80,29 @@ body {
 
 
 .MenuTab {
+	margin: 0 auto;
 	box-sizing: border-box;
-	display: inline-block;
+	width: fit-content;
+	display: block;
 	color: var(--Text);
 	text-align: center;
 	padding: 10px 45px;
 	text-decoration: none;
 	font-size: var(--MenuTabFontSize);
 
-	backdrop-filter: blur(10px);
-	background: linear-gradient(to bottom, rgba(var(--Primaryrgb),0) 50%, rgba(var(--Primaryrgb),1) 50%) top;
+	backdrop-filter: blur(0px);
+	background: linear-gradient(to bottom, rgba(var(--Primaryrgb),0) 50%, rgba(var(--Secondaryrgb), 1) 50%) top;
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
 
 
 }
 .MenuTab-noHoverAfterClick {
+	margin: 0 auto;
 	box-sizing: border-box;
-	display: inline-block;
+	width: fit-content;
+	display: block;
+
 	color: var(--Text);
 	text-align: center;
 	padding: 10px 45px;
@@ -133,17 +127,17 @@ body {
 .MenuTab.Special:hover
 {
 
-	color: gold;
+	color: TextInverted;
 
 
-	box-shadow: gold 0px 0px 0px 1px inset ; 
+	box-shadow: black 0px 0px 0px 1px inset ; 
 	
 }
 
 .MenuTab-noHoverAfterClick:hover {
 	
 	box-sizing: border-box;
-	display: inline-block;
+	display: block;
 	color: var(--Text);
 	text-align: center;
 	padding: 10px 45px;
@@ -163,7 +157,7 @@ body {
 }
 @keyframes flash {
 	0%	{
-			background: gold;
+			background: black;
 			color: var(--TextInverted);
 		}
 
@@ -173,7 +167,7 @@ body {
 }
 
 .ElementWithUnderlineAnim {
-	display: inline-block;
+	display: block;
 	position: relative;
 }
 .ElementWithUnderlineAnim::after {
@@ -184,7 +178,7 @@ body {
   height: 1px;
   bottom: 0;
   left: 0;
-  background-color: var(--Borders);
+  background-color: var(--Secondary);
   transform-origin: top;
   transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
 }
@@ -197,7 +191,7 @@ body {
   height: 1px;
   bottom: 0;
   left: 0;
-  background-color: var(--Primary);
+  background-color: var(--Secondary);
   transform-origin: top;
   transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
 }

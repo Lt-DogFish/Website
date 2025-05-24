@@ -21,8 +21,29 @@
 }
 
 .intro {
-	height: 100vh;
+	height: 50vh;
 
+}
+
+.bg1 {
+	object-fit: contain; /* This is key for cropping */
+  	object-position: center; /* Adjust focus area (optional) */
+	filter: blur(0px);
+	margin: 0 auto;
+  	width: 75vw;
+  	height: auto;
+  	display: block;
+	box-shadow: 0px 0px 5px rgba(33, 33, 33, 1), -15px 15px 10px rgba(0, 0, 0, 0.5);
+	border-color: var(--Secondary);
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 10px;
+}
+
+.bg2 {
+  	width: 100%;
+  	height: auto;
+  	display: block;
 }
 
 .scroll-tracks-conainer {
