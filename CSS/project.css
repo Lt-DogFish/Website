@@ -29,26 +29,25 @@
 
 		.code-container
 		{
-			overflow: scroll;
-
 			.shelf
 			{
-
 				background-color: #dadada;
 				color: black;
 
 				padding: .5vw;
-
-				position: absolute;
 			}
 
-			pre
+			.code
 			{
-				margin: 0px;
-				.code
+				height: inherit;
+				overflow: scroll;
+				pre
 				{
-					padding: 0px;
-					padding-left: 1vw;
+					margin: 0px;
+					code
+					{
+						padding: 0px;
+					}
 				}
 			}
 		}
@@ -59,6 +58,8 @@
 			color: black;
 
 			text-align: center;
+
+			overflow: scroll;
 		}
 	}
 }
