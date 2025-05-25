@@ -90,7 +90,7 @@ body {
 	text-decoration: none;
 	font-size: var(--MenuTabFontSize);
 
-	backdrop-filter: blur(0px);
+
 	background: linear-gradient(to bottom, rgba(var(--Primaryrgb),0) 50%, rgba(var(--Secondaryrgb), 1) 50%) top;
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
