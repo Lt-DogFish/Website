@@ -178,7 +178,7 @@ function getScrollDelta()
 }*/
 
 let previousScrollY = window.scrollY;
-let drawerTopVH = 100; // start off-screen at 100vh
+let drawerTopVH = 0; // start off-screen at 100vh
 
 function getScrollDelta() {
 	const delta = window.scrollY - previousScrollY;
@@ -201,7 +201,8 @@ function moveDrawer() {
 	/*drawerTopVH = Math.max(0, Math.min(100, drawerTopVH));*/
 
 	// Apply new position
-	drawer.style.top = drawerTopVH + "vh";
+	//drawer.style.top = drawerTopVH + "vh";
+	drawer.style.transform = `translateY(${drawerTopVH}vh)`;
 }
 
 window.addEventListener("scroll", moveDrawer);
