@@ -17,14 +17,14 @@
 
 		.sub-segments
 		{
-			border: 0px;
+			border: 1px;
 			border-color: white;
 			border-radius: 1vh;
 
 			background-color: #242424;
 			width: 50vw;
 			height: 80vh;
-
+			overflow: scroll;
 		}
 
 		.code-container
