@@ -322,21 +322,22 @@
 
 .drawer-grid {
 	display: flexbox;
-	align-content: flex;
+	
 }
 
 
 .card {
-	color: var(--TextInverted);
-	box-sizing: border-box;
-	display: inline-block;
-	box-shadow: var(--BordersInverted) 0px 0px 0px 1px inset;
-	height: 20vw;
-	width: 20vw;
-	background-color: rgba(var(--Cardrgb),0.1);
-	backdrop-filter: blur(5px);
-	/*border: 1px solid rgb(225, 0, 255);  */
-	transition: .3s cubic-bezier(.77,.12,.16,.95);
+  	height: 20vw;
+  	width: 20vw;
+  	overflow: hidden; /* or scroll if you want scrollbars */
+  	display: inline-block;
+  	box-sizing: border-box;
+  	box-shadow: var(--BordersInverted) 0px 0px 0px 1px inset;
+  	background-color: rgba(var(--Cardrgb), 0.1);
+  	backdrop-filter: blur(5px);
+  	color: var(--TextInverted);
+  	transition: .3s cubic-bezier(.77, .12, .16, .95);
+  	padding: 1rem;
 }
 
 
