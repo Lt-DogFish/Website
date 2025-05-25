@@ -7,9 +7,15 @@ const Scroll = document.getElementById("scroll");
 
 
 var card1 = document.getElementById("card1");
+var card2 = document.getElementById("card2");
 function setCard1(){
 	card1 = document.getElementById("card1");
-	card1.addEventListener("click", function() {fetchAndSetInnerHtml("HTML/firstProject.html"); 		trackFadeInElementsNew();});
+	card1.addEventListener("click", function() {fetchAndSetInnerHtml("HTML/project1.html"); 		trackFadeInElementsNew();});
+}
+
+function setCard2(){
+	card2 = document.getElementById("card2");
+	card2.addEventListener("click", function() {fetchAndSetInnerHtml("HTML/project2.html"); 		trackFadeInElementsNew();});
 }
 
 
@@ -20,7 +26,7 @@ const config = { childList: true, subtree: true };
 
 const observerCallFunc = function () {
 	setCard1();
-
+	setCard2();
 	}
 const observer = new MutationObserver(observerCallFunc);
 observer.observe(targetNode, config);
