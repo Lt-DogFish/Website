@@ -3,499 +3,501 @@
     <div class = "code-segment">
         <div class = "sub-segments code-container">
 			<div class = "shelf"> C# </div>
-            <pre><code class="language-csharp code">
-using System.Collections.Generic;
-using UnityEngine;
+			<div class = "code">
+				<pre><code class="language-csharp">
+	using System.Collections.Generic;
+	using UnityEngine;
 
-public class Movement : MonoBehaviour
-{
-	//______________________________________________________________________________________________________________________________________________//
-	[Header("Initial")]
-	public Rigidbody thisRigidbody;
-	public Transform LookRotationTargetTransform;
-	public Transform PlayerGraphicTransform;
-	public CapsuleCollider thisCollider;
-	public AnimationManager animManager;
-	private InputManager inputManager;
-	public bool movementEnabled = true;
-	//______________________________________________________________________________________________________________________________________________//
-	[Space]
-	[Space]
-	[Header("Metrics")] 
-	public PlayerState playerState = PlayerState.Stopped;
-	public PlayerAnimationState animationState = PlayerAnimationState.Default;
-	public Vector3 flatInput;
-	public float playerSpeed;
-
-
-	public enum PlayerState
+	public class Movement : MonoBehaviour
 	{
-		Stopped,
-		Walking,
-		Running,
-		Airborne,
-	}
-	public enum PlayerAnimationState
-	{
-		Jump = 2,
-		Fall = 1,
-		Default = 0,
-	}
-	public enum Constraints
-	{
-		FreezeX = RigidbodyConstraints.FreezePositionX,
-		FreezeY = RigidbodyConstraints.FreezePositionY,
-		FreezeZ = RigidbodyConstraints.FreezePositionZ,
+		//______________________________________________________________________________________________________________________________________________//
+		[Header("Initial")]
+		public Rigidbody thisRigidbody;
+		public Transform LookRotationTargetTransform;
+		public Transform PlayerGraphicTransform;
+		public CapsuleCollider thisCollider;
+		public AnimationManager animManager;
+		private InputManager inputManager;
+		public bool movementEnabled = true;
+		//______________________________________________________________________________________________________________________________________________//
+		[Space]
+		[Space]
+		[Header("Metrics")] 
+		public PlayerState playerState = PlayerState.Stopped;
+		public PlayerAnimationState animationState = PlayerAnimationState.Default;
+		public Vector3 flatInput;
+		public float playerSpeed;
 
-		FreezeXrot = RigidbodyConstraints.FreezeRotationX,
-		FreezeYrot = RigidbodyConstraints.FreezeRotationY,
-		FreezeZrot = RigidbodyConstraints.FreezeRotationZ,
-	}
-	//______________________________________________________________________________________________________________________________________________//
-	[Space]
-	[Space]
-	[Header("WASD Movement")]
-	public float maxSprintSpeed;
-	public float maxWalkSpeed;
-	public float minimumSpeedBeforeClamp;
 
-	private float minimumSpeedbeforeClampSqrCache;
-
-	[Space]
-	public float acceleration;
-	public float deceleration;
-	public AnimationCurve speedAffectsSprintAcceleration;
-
-	private float lerpedSpeedLimit;
-
-	[Space]
-	public float playerGraphicRotationSpeed;
-	private Quaternion playerGraphicYrotation;
-	private bool canRotatePlayerGraphic;
-
-	private float inputMagnitude;
-	private bool isInputPresent;
-	private bool isSprintKeyPressed;
-	//______________________________________________________________________________________________________________________________________________//
-	[Space]
-	[Space]
-	[Header("Jump and Airborne Movement")]
-	public float jumpHeight; 
-
-	private bool shouldJump;
-	private bool shouldConstrainYonce;
-	private PlayerState playerStateBeforeAirborne;
-
-	[Space]
-	public float airborneAcceleration;
-	public float airborneDeceleration;
-	public float maxAirborneFlatSpeed;
-	//______________________________________________________________________________________________________________________________________________//
-	[Space]
-	[Space]
-	[Header("GroundCheck")]
-	public float floorSlopeTollerence;
-
-	private bool isGrounded;
-	private bool isSlopeTolerable;
-
-	private HashSet<GameObject> trackedWalkableSurfaces = new();
-	//______________________________________________________________________________________________________________________________________________//
-	[Space]
-	[Space]
-	[Header("Animation & Visuals")]
-	public float forwardTiltSensitivity;
-	public float sideTiltSensitivity;
-	public float maximumTiltInDegrees;
-	public float tiltSmoothness;
-	public AnimationCurve speedAffectsTiltAngleVelocity;
-
-	private Vector3 velocityPreviousFrame;
-	private Vector3 velocityThisFrame;
-	private Vector3 accelerationForTiltcalc;
-	private float animState;
-	//______________________________________________________________________________________________________________________________________________//
-
-	private void Start()
-	{
-		inputManager = InputManager.instance;
-		minimumSpeedbeforeClampSqrCache = minimumSpeedBeforeClamp * minimumSpeedBeforeClamp;
-
-		Time.timeScale = 1f;
-	}
-
-	void Update()
-	{
-		if(movementEnabled)
+		public enum PlayerState
 		{
-			if(inputManager.sprintButtonPressed) isSprintKeyPressed = true;
-			if(inputManager.jumpButtomPressed && thisRigidbody.linearVelocity.y <= 0) shouldJump   = true;
-
-			flatInput = new Vector3(inputManager.moveVector.x, 0, inputManager.moveVector.y);
-			inputMagnitude = flatInput.magnitude;
-			isInputPresent = inputMagnitude != 0;
-
-			playerState = isGrounded? playerState : PlayerState.Airborne;
-
-			playerGraphicYrotation = Quaternion.Euler(
-				PlayerGraphicTransform.rotation.eulerAngles.x, 
-				LookRotationTargetTransform.rotation.eulerAngles.y, 
-				PlayerGraphicTransform.rotation.eulerAngles.z
-				);
-			if(canRotatePlayerGraphic) ApplyRotation(playerGraphicYrotation);
+			Stopped,
+			Walking,
+			Running,
+			Airborne,
 		}
-	}
-
-	private void FixedUpdate()
-	{
-		if(movementEnabled)
+		public enum PlayerAnimationState
 		{
-			playerSpeed = thisRigidbody.linearVelocity.magnitude;
+			Jump = 2,
+			Fall = 1,
+			Default = 0,
+		}
+		public enum Constraints
+		{
+			FreezeX = RigidbodyConstraints.FreezePositionX,
+			FreezeY = RigidbodyConstraints.FreezePositionY,
+			FreezeZ = RigidbodyConstraints.FreezePositionZ,
 
-			switch (playerState)
+			FreezeXrot = RigidbodyConstraints.FreezeRotationX,
+			FreezeYrot = RigidbodyConstraints.FreezeRotationY,
+			FreezeZrot = RigidbodyConstraints.FreezeRotationZ,
+		}
+		//______________________________________________________________________________________________________________________________________________//
+		[Space]
+		[Space]
+		[Header("WASD Movement")]
+		public float maxSprintSpeed;
+		public float maxWalkSpeed;
+		public float minimumSpeedBeforeClamp;
+
+		private float minimumSpeedbeforeClampSqrCache;
+
+		[Space]
+		public float acceleration;
+		public float deceleration;
+		public AnimationCurve speedAffectsSprintAcceleration;
+
+		private float lerpedSpeedLimit;
+
+		[Space]
+		public float playerGraphicRotationSpeed;
+		private Quaternion playerGraphicYrotation;
+		private bool canRotatePlayerGraphic;
+
+		private float inputMagnitude;
+		private bool isInputPresent;
+		private bool isSprintKeyPressed;
+		//______________________________________________________________________________________________________________________________________________//
+		[Space]
+		[Space]
+		[Header("Jump and Airborne Movement")]
+		public float jumpHeight; 
+
+		private bool shouldJump;
+		private bool shouldConstrainYonce;
+		private PlayerState playerStateBeforeAirborne;
+
+		[Space]
+		public float airborneAcceleration;
+		public float airborneDeceleration;
+		public float maxAirborneFlatSpeed;
+		//______________________________________________________________________________________________________________________________________________//
+		[Space]
+		[Space]
+		[Header("GroundCheck")]
+		public float floorSlopeTollerence;
+
+		private bool isGrounded;
+		private bool isSlopeTolerable;
+
+		private HashSet<GameObject> trackedWalkableSurfaces = new();
+		//______________________________________________________________________________________________________________________________________________//
+		[Space]
+		[Space]
+		[Header("Animation & Visuals")]
+		public float forwardTiltSensitivity;
+		public float sideTiltSensitivity;
+		public float maximumTiltInDegrees;
+		public float tiltSmoothness;
+		public AnimationCurve speedAffectsTiltAngleVelocity;
+
+		private Vector3 velocityPreviousFrame;
+		private Vector3 velocityThisFrame;
+		private Vector3 accelerationForTiltcalc;
+		private float animState;
+		//______________________________________________________________________________________________________________________________________________//
+
+		private void Start()
+		{
+			inputManager = InputManager.instance;
+			minimumSpeedbeforeClampSqrCache = minimumSpeedBeforeClamp * minimumSpeedBeforeClamp;
+
+			Time.timeScale = 1f;
+		}
+
+		void Update()
+		{
+			if(movementEnabled)
 			{
-				//Stop state
-				case PlayerState.Stopped:
+				if(inputManager.sprintButtonPressed) isSprintKeyPressed = true;
+				if(inputManager.jumpButtomPressed && thisRigidbody.linearVelocity.y <= 0) shouldJump   = true;
+
+				flatInput = new Vector3(inputManager.moveVector.x, 0, inputManager.moveVector.y);
+				inputMagnitude = flatInput.magnitude;
+				isInputPresent = inputMagnitude != 0;
+
+				playerState = isGrounded? playerState : PlayerState.Airborne;
+
+				playerGraphicYrotation = Quaternion.Euler(
+					PlayerGraphicTransform.rotation.eulerAngles.x, 
+					LookRotationTargetTransform.rotation.eulerAngles.y, 
+					PlayerGraphicTransform.rotation.eulerAngles.z
+					);
+				if(canRotatePlayerGraphic) ApplyRotation(playerGraphicYrotation);
+			}
+		}
+
+		private void FixedUpdate()
+		{
+			if(movementEnabled)
+			{
+				playerSpeed = thisRigidbody.linearVelocity.magnitude;
+
+				switch (playerState)
 				{
-					SetAnimationState(PlayerAnimationState.Default);
-					canRotatePlayerGraphic = false;
-					if(isInputPresent)
+					//Stop state
+					case PlayerState.Stopped:
 					{
-						if(isSprintKeyPressed)
+						SetAnimationState(PlayerAnimationState.Default);
+						canRotatePlayerGraphic = false;
+						if(isInputPresent)
 						{
-							ChangePlayerState(PlayerState.Running);
+							if(isSprintKeyPressed)
+							{
+								ChangePlayerState(PlayerState.Running);
+							}
+							else
+							{
+								ChangePlayerState(PlayerState.Walking);
+							}
+						}
+						else
+						{
+							ZeroXYVelocity();
+							SetSpeedLimit(0);
+							ResetMoveAnimationVectors();
+						}
+						if(shouldJump)
+						{
+							Jump();
+							shouldJump = false;
+						}
+
+						break;
+					}
+					//Walking State
+					case PlayerState.Walking:
+					{
+						SetAnimationState(PlayerAnimationState.Default);
+						if(isInputPresent)
+						{
+							canRotatePlayerGraphic = true;
+
+							if(isSprintKeyPressed)
+							{
+								ChangePlayerState(PlayerState.Running);
+							}
+
+							ApplyAcceleration(playerGraphicYrotation * flatInput * acceleration);
+							SetSpeedLimit(maxWalkSpeed * inputMagnitude);
+						}
+						else
+						{
+							canRotatePlayerGraphic = false;
+							ApplyAcceleration(-new Vector3(thisRigidbody.linearVelocity.x, 0, thisRigidbody.linearVelocity.z).normalized * deceleration);
+							CheckIfPlayerStopped();
+						}
+						if(shouldJump)
+						{
+							Jump();
+							shouldJump = false;
+						}
+						Vector3 vel = PlayerGraphicTransform.InverseTransformDirection(thisRigidbody.linearVelocity);
+						SetMoveAnimationVectors(vel.x/maxWalkSpeed * 0.5f, vel.z/maxWalkSpeed * 0.5f);
+
+						break;
+					}
+					//Running State
+					case PlayerState.Running:
+					{
+						SetAnimationState(PlayerAnimationState.Default);
+						if(isInputPresent)
+						{
+							canRotatePlayerGraphic = true;
+							ApplyAcceleration(playerGraphicYrotation * flatInput * acceleration * speedAffectsSprintAcceleration.Evaluate(playerSpeed/maxSprintSpeed));
+							SetSpeedLimit(maxSprintSpeed * inputMagnitude);
 						}
 						else
 						{
 							ChangePlayerState(PlayerState.Walking);
+							canRotatePlayerGraphic = false;
+							ApplyAcceleration(-new Vector3(thisRigidbody.linearVelocity.x, 0, thisRigidbody.linearVelocity.z).normalized * deceleration);
+							CheckIfPlayerStopped();
+
 						}
-					}
-					else
-					{
-						ZeroXYVelocity();
-						SetSpeedLimit(0);
-						ResetMoveAnimationVectors();
-					}
-					if(shouldJump)
-					{
-						Jump();
-						shouldJump = false;
-					}
-
-					break;
-				}
-				//Walking State
-				case PlayerState.Walking:
-				{
-					SetAnimationState(PlayerAnimationState.Default);
-					if(isInputPresent)
-					{
-						canRotatePlayerGraphic = true;
-
-						if(isSprintKeyPressed)
+						if(shouldJump)
 						{
-							ChangePlayerState(PlayerState.Running);
+							Jump();
+							shouldJump = false;
 						}
 
-						ApplyAcceleration(playerGraphicYrotation * flatInput * acceleration);
-						SetSpeedLimit(maxWalkSpeed * inputMagnitude);
-					}
-					else
-					{
-						canRotatePlayerGraphic = false;
-						ApplyAcceleration(-new Vector3(thisRigidbody.linearVelocity.x, 0, thisRigidbody.linearVelocity.z).normalized * deceleration);
-						CheckIfPlayerStopped();
-					}
-					if(shouldJump)
-					{
-						Jump();
-						shouldJump = false;
-					}
-					Vector3 vel = PlayerGraphicTransform.InverseTransformDirection(thisRigidbody.linearVelocity);
-					SetMoveAnimationVectors(vel.x/maxWalkSpeed * 0.5f, vel.z/maxWalkSpeed * 0.5f);
+						Vector3 vel = PlayerGraphicTransform.InverseTransformDirection(thisRigidbody.linearVelocity);
+						SetMoveAnimationVectors((vel.x/maxSprintSpeed), (vel.z/maxSprintSpeed));
 
-					break;
+						isSprintKeyPressed = false;
+
+						break;
+					}
+					//Airborne State
+					case PlayerState.Airborne:
+					{
+						//shitty math, have to assign local var in hierarchy.
+						float sigmoidValue = Sigmoid(-thisRigidbody.linearVelocity.y);
+						animManager.SetLerpedJumpMotionTime(sigmoidValue);
+
+						if(sigmoidValue > 0.6f)
+						{
+							SetAnimationState(PlayerAnimationState.Fall);
+						}
+						else
+						{
+							SetAnimationState(PlayerAnimationState.Jump);
+						}
+
+						if(isInputPresent)
+						{
+							canRotatePlayerGraphic = true;
+							ApplyAcceleration(playerGraphicYrotation * flatInput * airborneAcceleration);
+							SetSpeedLimit(maxAirborneFlatSpeed * inputMagnitude);
+						}
+						else
+						{
+							canRotatePlayerGraphic = false;
+							ApplyAcceleration(-new Vector3(thisRigidbody.linearVelocity.x, 0, thisRigidbody.linearVelocity.z).normalized * airborneDeceleration);
+						}
+
+						ResetMoveAnimationVectors();
+
+						
+
+						if(isGrounded) ChangePlayerState(playerStateBeforeAirborne);
+
+						break;
+					}
 				}
-				//Running State
-				case PlayerState.Running:
-				{
-					SetAnimationState(PlayerAnimationState.Default);
-					if(isInputPresent)
-					{
-						canRotatePlayerGraphic = true;
-						ApplyAcceleration(playerGraphicYrotation * flatInput * acceleration * speedAffectsSprintAcceleration.Evaluate(playerSpeed/maxSprintSpeed));
-						SetSpeedLimit(maxSprintSpeed * inputMagnitude);
-					}
-					else
-					{
-						ChangePlayerState(PlayerState.Walking);
-						canRotatePlayerGraphic = false;
-						ApplyAcceleration(-new Vector3(thisRigidbody.linearVelocity.x, 0, thisRigidbody.linearVelocity.z).normalized * deceleration);
-						CheckIfPlayerStopped();
-
-					}
-					if(shouldJump)
-					{
-						Jump();
-						shouldJump = false;
-					}
-
-					Vector3 vel = PlayerGraphicTransform.InverseTransformDirection(thisRigidbody.linearVelocity);
-					SetMoveAnimationVectors((vel.x/maxSprintSpeed), (vel.z/maxSprintSpeed));
-
-					isSprintKeyPressed = false;
-
-					break;
-				}
-				//Airborne State
-				case PlayerState.Airborne:
-				{
-					//shitty math, have to assign local var in hierarchy.
-					float sigmoidValue = Sigmoid(-thisRigidbody.linearVelocity.y);
-					animManager.SetLerpedJumpMotionTime(sigmoidValue);
-
-					if(sigmoidValue > 0.6f)
-					{
-						SetAnimationState(PlayerAnimationState.Fall);
-					}
-					else
-					{
-						SetAnimationState(PlayerAnimationState.Jump);
-					}
-
-					if(isInputPresent)
-					{
-						canRotatePlayerGraphic = true;
-						ApplyAcceleration(playerGraphicYrotation * flatInput * airborneAcceleration);
-						SetSpeedLimit(maxAirborneFlatSpeed * inputMagnitude);
-					}
-					else
-					{
-						canRotatePlayerGraphic = false;
-						ApplyAcceleration(-new Vector3(thisRigidbody.linearVelocity.x, 0, thisRigidbody.linearVelocity.z).normalized * airborneDeceleration);
-					}
-
-					ResetMoveAnimationVectors();
-
-					
-
-					if(isGrounded) ChangePlayerState(playerStateBeforeAirborne);
-
-					break;
-				}
+				TiltGraphicBasedOnAcceleration(1f);
 			}
-			TiltGraphicBasedOnAcceleration(1f);
 		}
-	}
-	//___________________OnCollision and Ground Check______________________//
+		//___________________OnCollision and Ground Check______________________//
 
-	private void OnCollisionEnter(Collision other)
-	{
-		isSlopeTolerable = Vector3.Dot(other.GetContact(0).normal, Vector3.up) > floorSlopeTollerence/90;
-		shouldConstrainYonce = isSlopeTolerable;
-
-		if(isSlopeTolerable)
+		private void OnCollisionEnter(Collision other)
 		{
-			DepenetrateCollision(other);
-			trackedWalkableSurfaces.Add(other.gameObject);
-		}
-	}
+			isSlopeTolerable = Vector3.Dot(other.GetContact(0).normal, Vector3.up) > floorSlopeTollerence/90;
+			shouldConstrainYonce = isSlopeTolerable;
 
-	private void OnCollisionStay(Collision other)
-	{
-		isSlopeTolerable = Vector3.Dot(other.GetContact(0).normal, Vector3.up) > floorSlopeTollerence/90;
-
-		if(isSlopeTolerable)
-		{
-			DepenetrateCollision(other);
-			if(!trackedWalkableSurfaces.Contains(other.gameObject)) trackedWalkableSurfaces.Add(other.gameObject);
-		}
-		else
-		{
-			trackedWalkableSurfaces.Remove(other.gameObject);
+			if(isSlopeTolerable)
+			{
+				DepenetrateCollision(other);
+				trackedWalkableSurfaces.Add(other.gameObject);
+			}
 		}
 
-		isGrounded = trackedWalkableSurfaces.Count != 0;
-
-		if (!isGrounded)  RemoveConstraints(Constraints.FreezeY);
-
-		if (shouldConstrainYonce)
+		private void OnCollisionStay(Collision other)
 		{
-		   AddConstraints(Constraints.FreezeY);
-		   shouldConstrainYonce = false;
+			isSlopeTolerable = Vector3.Dot(other.GetContact(0).normal, Vector3.up) > floorSlopeTollerence/90;
+
+			if(isSlopeTolerable)
+			{
+				DepenetrateCollision(other);
+				if(!trackedWalkableSurfaces.Contains(other.gameObject)) trackedWalkableSurfaces.Add(other.gameObject);
+			}
+			else
+			{
+				trackedWalkableSurfaces.Remove(other.gameObject);
+			}
+
+			isGrounded = trackedWalkableSurfaces.Count != 0;
+
+			if (!isGrounded)  RemoveConstraints(Constraints.FreezeY);
+
+			if (shouldConstrainYonce)
+			{
+			AddConstraints(Constraints.FreezeY);
+			shouldConstrainYonce = false;
+			}
 		}
-	}
 
 
-	private void OnCollisionExit(Collision other)
-	{
-		//remove colliders from tracker when no longer in contact
-		if(trackedWalkableSurfaces.Contains(other.gameObject))
+		private void OnCollisionExit(Collision other)
 		{
-			trackedWalkableSurfaces.Remove(other.gameObject);
+			//remove colliders from tracker when no longer in contact
+			if(trackedWalkableSurfaces.Contains(other.gameObject))
+			{
+				trackedWalkableSurfaces.Remove(other.gameObject);
+			}
+
+			//atleast one surface needed underneath player to be marked grounded
+			isGrounded = trackedWalkableSurfaces.Count != 0;
+
+			if(!isGrounded)
+			{
+				//checking and block state change when non grounded collision exits happen while airborne
+				playerStateBeforeAirborne = playerState == PlayerState.Airborne? playerStateBeforeAirborne : playerState;
+
+				ChangePlayerState(PlayerState.Airborne);
+				RemoveConstraints(Constraints.FreezeY);
+			}
+		}
+		//___________________________Custom Methods_______________________________________//
+
+		//_________________________Animation________________________//
+		//Scalled sigmoid fucntiont that returns between 0.5 and 1 instead of 0 and 1;
+		public static float Sigmoid(float _num)
+		{
+			float k = Mathf.Exp(_num);
+			return (0.5f + (0.5f * (k / (1.0f + k))));
 		}
 
-		//atleast one surface needed underneath player to be marked grounded
-		isGrounded = trackedWalkableSurfaces.Count != 0;
-
-		if(!isGrounded)
+		public void TiltGraphicBasedOnAcceleration(float _factor)
 		{
-			//checking and block state change when non grounded collision exits happen while airborne
-			playerStateBeforeAirborne = playerState == PlayerState.Airborne? playerStateBeforeAirborne : playerState;
+			float speedToTiltFactor = speedAffectsTiltAngleVelocity.Evaluate(playerSpeed /maxSprintSpeed);
 
-			ChangePlayerState(PlayerState.Airborne);
-			RemoveConstraints(Constraints.FreezeY);
-		}
-	}
-	//___________________________Custom Methods_______________________________________//
+			velocityThisFrame = thisRigidbody.linearVelocity;
+			accelerationForTiltcalc = velocityThisFrame - velocityPreviousFrame;
+			velocityPreviousFrame = velocityThisFrame;
 
-	//_________________________Animation________________________//
-	//Scalled sigmoid fucntiont that returns between 0.5 and 1 instead of 0 and 1;
-	public static float Sigmoid(float _num)
-	{
-		float k = Mathf.Exp(_num);
-		return (0.5f + (0.5f * (k / (1.0f + k))));
-	}
+			Vector3 Tilt = Vector3.ClampMagnitude(_factor * accelerationForTiltcalc, maximumTiltInDegrees);
 
-	public void TiltGraphicBasedOnAcceleration(float _factor)
-	{
-		float speedToTiltFactor = speedAffectsTiltAngleVelocity.Evaluate(playerSpeed /maxSprintSpeed);
-
-		velocityThisFrame = thisRigidbody.linearVelocity;
-		accelerationForTiltcalc = velocityThisFrame - velocityPreviousFrame;
-		velocityPreviousFrame = velocityThisFrame;
-
-		Vector3 Tilt = Vector3.ClampMagnitude(_factor * accelerationForTiltcalc, maximumTiltInDegrees);
-
-		Tilt = PlayerGraphicTransform.InverseTransformDirection(Tilt);
-		
-		//Speed tilt factor makes sure that tilt amount is based on the speed of the player so at higher speed, player should titl more
-		Tilt = new Vector3(Tilt.x * sideTiltSensitivity * speedToTiltFactor, 0, Tilt.z * forwardTiltSensitivity * speedToTiltFactor);
-
-		Quaternion targetTilt = Quaternion.Euler(Tilt.z, PlayerGraphicTransform.rotation.eulerAngles.y, -Tilt.x);
-
-		PlayerGraphicTransform.rotation = Quaternion.Slerp(PlayerGraphicTransform.rotation, targetTilt, speedToTiltFactor * tiltSmoothness);
-	}
-
-	public void ApplyRotation(Quaternion _rotation)
-	{
-		PlayerGraphicTransform.rotation = Quaternion.Slerp(PlayerGraphicTransform.rotation, _rotation, playerGraphicRotationSpeed * speedAffectsSprintAcceleration.Evaluate(playerSpeed/maxSprintSpeed));
-		
-		
-	}
-
-	public void SetMoveAnimationVectors(float _x, float _z)
-	{
-		animManager.SetLerpedForwardVelocity(_z);
-		animManager.SetLerpedStrafeVelocity(_x);
-	}
-
-	public void ResetMoveAnimationVectors()
-	{
-		animManager.SetLerpedForwardVelocity(0);
-		animManager.SetLerpedStrafeVelocity(0);
-	}
-
-	//future rework, trasfer to animationManager script because it has responsibility
-	public void SetAnimationState(PlayerAnimationState _state)
-	{
-		animationState = _state;
-		float num = 0;
-		switch (animationState)
-		{
+			Tilt = PlayerGraphicTransform.InverseTransformDirection(Tilt);
 			
-			case PlayerAnimationState.Fall:
-			{
-				num = 1;
-				break;
-			}
+			//Speed tilt factor makes sure that tilt amount is based on the speed of the player so at higher speed, player should titl more
+			Tilt = new Vector3(Tilt.x * sideTiltSensitivity * speedToTiltFactor, 0, Tilt.z * forwardTiltSensitivity * speedToTiltFactor);
 
-			case PlayerAnimationState.Jump:
-			{
-				num = 0.5f;
-				Debug.Log("Jump state activated");
-				break;
-			}
-			case PlayerAnimationState.Default:
-			{
-				num = 0;
-				break;
-			}
+			Quaternion targetTilt = Quaternion.Euler(Tilt.z, PlayerGraphicTransform.rotation.eulerAngles.y, -Tilt.x);
+
+			PlayerGraphicTransform.rotation = Quaternion.Slerp(PlayerGraphicTransform.rotation, targetTilt, speedToTiltFactor * tiltSmoothness);
 		}
-		animManager.SetLerpedJumpStateIndicator(num);
+
+		public void ApplyRotation(Quaternion _rotation)
+		{
+			PlayerGraphicTransform.rotation = Quaternion.Slerp(PlayerGraphicTransform.rotation, _rotation, playerGraphicRotationSpeed * speedAffectsSprintAcceleration.Evaluate(playerSpeed/maxSprintSpeed));
+			
+			
+		}
+
+		public void SetMoveAnimationVectors(float _x, float _z)
+		{
+			animManager.SetLerpedForwardVelocity(_z);
+			animManager.SetLerpedStrafeVelocity(_x);
+		}
+
+		public void ResetMoveAnimationVectors()
+		{
+			animManager.SetLerpedForwardVelocity(0);
+			animManager.SetLerpedStrafeVelocity(0);
+		}
+
+		//future rework, trasfer to animationManager script because it has responsibility
+		public void SetAnimationState(PlayerAnimationState _state)
+		{
+			animationState = _state;
+			float num = 0;
+			switch (animationState)
+			{
+				
+				case PlayerAnimationState.Fall:
+				{
+					num = 1;
+					break;
+				}
+
+				case PlayerAnimationState.Jump:
+				{
+					num = 0.5f;
+					Debug.Log("Jump state activated");
+					break;
+				}
+				case PlayerAnimationState.Default:
+				{
+					num = 0;
+					break;
+				}
+			}
+			animManager.SetLerpedJumpStateIndicator(num);
+		}
+		//_________________________Physics________________________//
+
+		//needs to clamp at zero velocity for negative accelerations? maybe
+		public void ApplyAcceleration(Vector3 _acceleration)
+		{
+			thisRigidbody.linearVelocity += _acceleration *  Time.fixedDeltaTime;
+		}
+
+		public void SetSpeedLimit(float _speedLimit)
+
+		{
+			//Smooth clamping speed
+			lerpedSpeedLimit = Mathf.Lerp(lerpedSpeedLimit, _speedLimit, 0.3f);
+			Vector3 ClampedVelocity = Vector3.ClampMagnitude(new Vector3(thisRigidbody.linearVelocity.x, 0, thisRigidbody.linearVelocity.z), lerpedSpeedLimit);
+
+			thisRigidbody.linearVelocity = ClampedVelocity + (Vector3.up * thisRigidbody.linearVelocity.y);
+		}
+
+		public void ZeroXYVelocity() => thisRigidbody.linearVelocity = Vector3.zero + (Vector3.up * thisRigidbody.linearVelocity.y);
+
+		public void Jump()
+		{
+			SetAnimationState(PlayerAnimationState.Jump);
+			RemoveConstraints(Constraints.FreezeY);
+
+			//Jump Apex Calc Kinematic
+			thisRigidbody.linearVelocity += Vector3.up * Mathf.Sqrt(2 * jumpHeight * 9.81f);
+		}
+
+		public void DepenetrateCollision(Collision _other)
+		{
+			bool PenDetected = Physics.ComputePenetration(
+				thisCollider,
+				transform.position,
+				transform.rotation,
+				_other.collider,
+				_other.transform.position,
+				_other.transform.rotation,
+				out Vector3 dir,
+				out float dist);
+
+			if(PenDetected) transform.position += dir * dist;
+		}
+		//________________________Player States__________________________//
+		public void ChangePlayerState(PlayerState _state) => playerState = _state;
+
+		public void CheckIfPlayerStopped()
+		{
+			if(thisRigidbody.linearVelocity.sqrMagnitude <= minimumSpeedbeforeClampSqrCache) ChangePlayerState(PlayerState.Stopped);
+		}
+
+		public void DisableMovement()
+		{
+			movementEnabled = false;
+		}
+
+		public void EnableMovement() => movementEnabled = true;
+
+		//______________________Custom Constraint Modders_______________________//
+
+		//work on auto detect bit inversion in future
+		public void AddConstraints(params Constraints[] _constraints)
+		{
+			for (int i = 0; i < _constraints.Length; i++) thisRigidbody.constraints |= (RigidbodyConstraints)_constraints[i];
+		}
+
+		public void RemoveConstraints(params Constraints[] _constraints)
+		{
+			for (int i = 0; i < _constraints.Length; i++) thisRigidbody.constraints &= ~(RigidbodyConstraints)_constraints[i];
+		}
 	}
-	//_________________________Physics________________________//
-
-	//needs to clamp at zero velocity for negative accelerations? maybe
-	public void ApplyAcceleration(Vector3 _acceleration)
-	{
-		thisRigidbody.linearVelocity += _acceleration *  Time.fixedDeltaTime;
-	}
-
-	public void SetSpeedLimit(float _speedLimit)
-
-	{
-		//Smooth clamping speed
-		lerpedSpeedLimit = Mathf.Lerp(lerpedSpeedLimit, _speedLimit, 0.3f);
-		Vector3 ClampedVelocity = Vector3.ClampMagnitude(new Vector3(thisRigidbody.linearVelocity.x, 0, thisRigidbody.linearVelocity.z), lerpedSpeedLimit);
-
-		thisRigidbody.linearVelocity = ClampedVelocity + (Vector3.up * thisRigidbody.linearVelocity.y);
-	}
-
-	public void ZeroXYVelocity() => thisRigidbody.linearVelocity = Vector3.zero + (Vector3.up * thisRigidbody.linearVelocity.y);
-
-	public void Jump()
-	{
-		SetAnimationState(PlayerAnimationState.Jump);
-		RemoveConstraints(Constraints.FreezeY);
-
-		//Jump Apex Calc Kinematic
-		thisRigidbody.linearVelocity += Vector3.up * Mathf.Sqrt(2 * jumpHeight * 9.81f);
-	}
-
-	public void DepenetrateCollision(Collision _other)
-	{
-		bool PenDetected = Physics.ComputePenetration(
-			thisCollider,
-			transform.position,
-			transform.rotation,
-			_other.collider,
-			_other.transform.position,
-			_other.transform.rotation,
-			out Vector3 dir,
-			out float dist);
-
-		if(PenDetected) transform.position += dir * dist;
-	}
-	//________________________Player States__________________________//
-	public void ChangePlayerState(PlayerState _state) => playerState = _state;
-
-	public void CheckIfPlayerStopped()
-	{
-		if(thisRigidbody.linearVelocity.sqrMagnitude <= minimumSpeedbeforeClampSqrCache) ChangePlayerState(PlayerState.Stopped);
-	}
-
-	public void DisableMovement()
-	{
-		movementEnabled = false;
-	}
-
-	public void EnableMovement() => movementEnabled = true;
-
-	//______________________Custom Constraint Modders_______________________//
-
-	//work on auto detect bit inversion in future
-	public void AddConstraints(params Constraints[] _constraints)
-	{
-		for (int i = 0; i < _constraints.Length; i++) thisRigidbody.constraints |= (RigidbodyConstraints)_constraints[i];
-	}
-
-	public void RemoveConstraints(params Constraints[] _constraints)
-	{
-		for (int i = 0; i < _constraints.Length; i++) thisRigidbody.constraints &= ~(RigidbodyConstraints)_constraints[i];
-	}
-}
-            </code></pre>
+				</code></pre>
+			</div>
         </div>
 
         <div class = "sub-segments code-description">

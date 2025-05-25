@@ -3,165 +3,167 @@
     <div class = "code-segment">
         <div class = "sub-segments code-container">
             <div class = "shelf"> C# </div>
-            <pre><code class="language-csharp code">
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+            <div class = "code">
+                <pre><code class="language-csharp">
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
 
 
-[SerializeField]
-public class PIDmainClass
-{
-    public enum DerivativeMeasurement
+    [SerializeField]
+    public class PIDmainClass
     {
-        Velocity,
-        ErrorRateOfChange
-    }
-
-    //PID coefficients
-    public float proportionalGain;
-    public float integralGain;
-    public float derivativeGain;
-
-    public float outputMin = -1;
-    public float outputMax = 1;
-    public float integralSaturation;
-    public DerivativeMeasurement derivativeMeasurement;
-
-    public float valueLast;
-    public float errorLast;
-    public float integrationStored;
-    public float velocity;  //only used for the info display
-    public bool derivativeInitialized;
-
-    public float RandomDirectionSelectorDeadzoneValue;
-
-    public void updateCoeffecients(float Pgain, float Igain, float Dgain, float Isaturation, DerivativeMeasurement measurementType)
-    {
-        proportionalGain = Pgain;
-        integralGain = Igain;
-        derivativeGain = Dgain;
-        integralSaturation = Isaturation;
-        derivativeMeasurement = measurementType;
-    }
-
-
-    public PIDmainClass(float Pgain, float Igain, float Dgain, float Isaturation, DerivativeMeasurement measurementType)
-    {
-        proportionalGain = Pgain;
-        integralGain = Igain;
-        derivativeGain = Dgain;
-        integralSaturation = Isaturation;
-        derivativeMeasurement = measurementType;
-    }
-
-    public void Reset()
-    {
-        derivativeInitialized = false;
-    }
-
-    public float Update(float dt, float currentValue, float targetValue)
-    {
-        if (dt <= 0) throw new ArgumentOutOfRangeException(nameof(dt));
-
-        float error = targetValue - currentValue;
-
-        //calculate P term
-        float P = proportionalGain * error;
-
-        //calculate I term
-        integrationStored = Mathf.Clamp(integrationStored + (error * dt), -integralSaturation, integralSaturation);
-        float I = integralGain * integrationStored;
-
-        //calculate both D terms
-        float errorRateOfChange = (error - errorLast) / dt;
-        errorLast = error;
-
-        float valueRateOfChange = (currentValue - valueLast) / dt;
-        valueLast = currentValue;
-        velocity = valueRateOfChange;
-
-        //choose D term to use
-        float deriveMeasure = 0;
-
-        if (derivativeInitialized)
+        public enum DerivativeMeasurement
         {
-            if (derivativeMeasurement == DerivativeMeasurement.Velocity)
+            Velocity,
+            ErrorRateOfChange
+        }
+
+        //PID coefficients
+        public float proportionalGain;
+        public float integralGain;
+        public float derivativeGain;
+
+        public float outputMin = -1;
+        public float outputMax = 1;
+        public float integralSaturation;
+        public DerivativeMeasurement derivativeMeasurement;
+
+        public float valueLast;
+        public float errorLast;
+        public float integrationStored;
+        public float velocity;  //only used for the info display
+        public bool derivativeInitialized;
+
+        public float RandomDirectionSelectorDeadzoneValue;
+
+        public void updateCoeffecients(float Pgain, float Igain, float Dgain, float Isaturation, DerivativeMeasurement measurementType)
+        {
+            proportionalGain = Pgain;
+            integralGain = Igain;
+            derivativeGain = Dgain;
+            integralSaturation = Isaturation;
+            derivativeMeasurement = measurementType;
+        }
+
+
+        public PIDmainClass(float Pgain, float Igain, float Dgain, float Isaturation, DerivativeMeasurement measurementType)
+        {
+            proportionalGain = Pgain;
+            integralGain = Igain;
+            derivativeGain = Dgain;
+            integralSaturation = Isaturation;
+            derivativeMeasurement = measurementType;
+        }
+
+        public void Reset()
+        {
+            derivativeInitialized = false;
+        }
+
+        public float Update(float dt, float currentValue, float targetValue)
+        {
+            if (dt <= 0) throw new ArgumentOutOfRangeException(nameof(dt));
+
+            float error = targetValue - currentValue;
+
+            //calculate P term
+            float P = proportionalGain * error;
+
+            //calculate I term
+            integrationStored = Mathf.Clamp(integrationStored + (error * dt), -integralSaturation, integralSaturation);
+            float I = integralGain * integrationStored;
+
+            //calculate both D terms
+            float errorRateOfChange = (error - errorLast) / dt;
+            errorLast = error;
+
+            float valueRateOfChange = (currentValue - valueLast) / dt;
+            valueLast = currentValue;
+            velocity = valueRateOfChange;
+
+            //choose D term to use
+            float deriveMeasure = 0;
+
+            if (derivativeInitialized)
             {
-                deriveMeasure = -valueRateOfChange;
+                if (derivativeMeasurement == DerivativeMeasurement.Velocity)
+                {
+                    deriveMeasure = -valueRateOfChange;
+                }
+                else
+                {
+                    deriveMeasure = errorRateOfChange;
+                }
             }
             else
             {
-                deriveMeasure = errorRateOfChange;
+                derivativeInitialized = true;
             }
+
+            float D = derivativeGain * deriveMeasure;
+
+            float result = P + I + D;
+
+            return Mathf.Clamp(result, outputMin, outputMax);
         }
-        else
+
+        float AngleDifference(float a, float b)
         {
-            derivativeInitialized = true;
+            return (a - b + 540) % 360 - 180;   //calculate modular difference, and remap to [-180, 180]
         }
 
-        float D = derivativeGain * deriveMeasure;
-
-        float result = P + I + D;
-
-        return Mathf.Clamp(result, outputMin, outputMax);
-    }
-
-    float AngleDifference(float a, float b)
-    {
-        return (a - b + 540) % 360 - 180;   //calculate modular difference, and remap to [-180, 180]
-    }
-
-    public float UpdateAngle(float dt, float currentAngle, float targetAngle)
-    {
-        if (dt <= 0) throw new ArgumentOutOfRangeException(nameof(dt));
-        float error = AngleDifference(targetAngle, currentAngle);
-        errorLast = error;
-
-
-        //calculate P term
-        float P = proportionalGain * error;
-
-        //calculate I term
-        integrationStored = Mathf.Clamp(integrationStored + (error * dt), -integralSaturation, integralSaturation);
-        float I = integralGain * integrationStored;
-
-        //calculate both D terms
-        float errorRateOfChange = AngleDifference(error, errorLast) / dt;
-        errorLast = error;
-
-        float valueRateOfChange = AngleDifference(currentAngle, valueLast) / dt;
-        valueLast = currentAngle;
-        velocity = valueRateOfChange;
-
-        //choose D term to use
-        float deriveMeasure = 0;
-
-        if (derivativeInitialized)
+        public float UpdateAngle(float dt, float currentAngle, float targetAngle)
         {
-            if (derivativeMeasurement == DerivativeMeasurement.Velocity)
+            if (dt <= 0) throw new ArgumentOutOfRangeException(nameof(dt));
+            float error = AngleDifference(targetAngle, currentAngle);
+            errorLast = error;
+
+
+            //calculate P term
+            float P = proportionalGain * error;
+
+            //calculate I term
+            integrationStored = Mathf.Clamp(integrationStored + (error * dt), -integralSaturation, integralSaturation);
+            float I = integralGain * integrationStored;
+
+            //calculate both D terms
+            float errorRateOfChange = AngleDifference(error, errorLast) / dt;
+            errorLast = error;
+
+            float valueRateOfChange = AngleDifference(currentAngle, valueLast) / dt;
+            valueLast = currentAngle;
+            velocity = valueRateOfChange;
+
+            //choose D term to use
+            float deriveMeasure = 0;
+
+            if (derivativeInitialized)
             {
-                deriveMeasure = -valueRateOfChange;
+                if (derivativeMeasurement == DerivativeMeasurement.Velocity)
+                {
+                    deriveMeasure = -valueRateOfChange;
+                }
+                else
+                {
+                    deriveMeasure = errorRateOfChange;
+                }
             }
             else
             {
-                deriveMeasure = errorRateOfChange;
+                derivativeInitialized = true;
             }
+
+            float D = derivativeGain * deriveMeasure;
+
+            float result = P + I + D;
+
+            return Mathf.Clamp(result, outputMin, outputMax);
         }
-        else
-        {
-            derivativeInitialized = true;
-        }
-
-        float D = derivativeGain * deriveMeasure;
-
-        float result = P + I + D;
-
-        return Mathf.Clamp(result, outputMin, outputMax);
     }
-}
-            </code></pre>
+                </code></pre>
+            </div>
         </div>
 
         <div class = "sub-segments code-description">
@@ -176,398 +178,400 @@ public class PIDmainClass
 
         <div class = "sub-segments code-container">
             <div class = "shelf"> C# </div>
-            <pre><code class="language-csharp code">
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+            <div class = "code">
+                <pre><code class="language-csharp">
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-public class FlightControllerMKrwo : MonoBehaviour
-{
-    private List<Thruster> Thrusters = new();
-    private Rigidbody physics;
-    private Vector3 startLocationForMeshCombining;
-
-
-    public PIDmainClass HeightPIDController;
-    public PIDmainClass XTransPIDController;
-    public PIDmainClass ZTransPIDController;
-
-    public PIDmainClass xRotationPIDController;
-    public PIDmainClass zRotationPIDController;
-    public PIDmainClass yRotationPIDController;
-
-    
-    [Header("Thruster constants")]
-    public bool enableThrusters;
-    public bool enableNoiseInfluence;
-    public float maxNoiseThreshold;
-    [Range(0,1)]
-    public float ThrusterThrottleSmoothness = 0.3f;
-
-
-
-    private float previousCollectivethrottle;
-
-    [Space]
-    [Space]
-    [Header("Individual Thrust Vectors")]
-    [Range(0, 1)]
-    public float topLeftThruster;
-    [Range(0, 1)]
-    public float topRightThruster;
-    [Range(0, 1)]
-    public float BottomLeftThruster;
-    [Range(0, 1)]
-    public float BottomRightThruster;
-
-
-
-    [Space]
-    
-    [Header("Translational PID")]
-    public bool EnableTranslationalPID;
-    public Vector3 TargetVectorCoordinate;
-    public float InputSensitivity;
-    public float HeightControllSensitivity;
-    [Range(-1,1)]
-    public float VIP;
-    [Range(-1,1)]
-    public float HIP;
-    [Range(-1,1)]
-    public float VJOYIP;
-    float lastx = 0;
-    float lastz = 0;
-    float lasty = 0;
-    [Range(0, 1)]
-    public float HeightDifferential;
-    [Range(-1, 1)]
-    public float XDifferential;
-    [Range(-1, 1)]
-    public float ZDifferential;
-
-
-
-   // [Space]
-   // public float targetHeight;
-   // public float targetX;
-   // public float targetZ;
-    [Space]
-    public float vertP;
-    public float vertI;
-    public float vertD;
-    public float vertIsat;
-    [Space]
-    
-    public float x_P;
-    public float x_I;
-    public float x_D;
-    public float x_Isat;
-    [Space]
-
-    public float z_P;
-    public float z_I;
-    public float z_D;
-    public float z_Isat;
-
-
-
-    [Space]
-    [Space]
-    
-    
-    private bool previousGenerateRandomRotationState;
-    [Header("RotationPID")]
-    public bool generateRandomRotation;
-    public bool enableRotationPID;
-
-    [Header("Tilt vectors")]
-    [Range(-1, 1)]
-    public float XRotationCorrection;
-    [Range(-1, 1)]
-    public float ZRotationCorrection;
-    [Range(-1, 1)]
-    public float YRotationCorrection;
-
-    public float maxXTilt;
-    public float maxZTilt;
-    public float maxYTilt;
-    public float targetRotationX;
-    public float targetRotationZ;
-    public float targetRotationY;
-    public float rotP;
-    public float rotI;
-    public float rotD;
-    public float rotIsat;
-
-
-
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    public class FlightControllerMKrwo : MonoBehaviour
     {
+        private List<Thruster> Thrusters = new();
+        private Rigidbody physics;
+        private Vector3 startLocationForMeshCombining;
 
-        ThrusterObjectHolder[] thrustersAsArray = transform.GetComponentsInChildren<ThrusterObjectHolder>();
-        foreach(ThrusterObjectHolder ThrusterObject in thrustersAsArray)
+
+        public PIDmainClass HeightPIDController;
+        public PIDmainClass XTransPIDController;
+        public PIDmainClass ZTransPIDController;
+
+        public PIDmainClass xRotationPIDController;
+        public PIDmainClass zRotationPIDController;
+        public PIDmainClass yRotationPIDController;
+
+        
+        [Header("Thruster constants")]
+        public bool enableThrusters;
+        public bool enableNoiseInfluence;
+        public float maxNoiseThreshold;
+        [Range(0,1)]
+        public float ThrusterThrottleSmoothness = 0.3f;
+
+
+
+        private float previousCollectivethrottle;
+
+        [Space]
+        [Space]
+        [Header("Individual Thrust Vectors")]
+        [Range(0, 1)]
+        public float topLeftThruster;
+        [Range(0, 1)]
+        public float topRightThruster;
+        [Range(0, 1)]
+        public float BottomLeftThruster;
+        [Range(0, 1)]
+        public float BottomRightThruster;
+
+
+
+        [Space]
+        
+        [Header("Translational PID")]
+        public bool EnableTranslationalPID;
+        public Vector3 TargetVectorCoordinate;
+        public float InputSensitivity;
+        public float HeightControllSensitivity;
+        [Range(-1,1)]
+        public float VIP;
+        [Range(-1,1)]
+        public float HIP;
+        [Range(-1,1)]
+        public float VJOYIP;
+        float lastx = 0;
+        float lastz = 0;
+        float lasty = 0;
+        [Range(0, 1)]
+        public float HeightDifferential;
+        [Range(-1, 1)]
+        public float XDifferential;
+        [Range(-1, 1)]
+        public float ZDifferential;
+
+
+
+    // [Space]
+    // public float targetHeight;
+    // public float targetX;
+    // public float targetZ;
+        [Space]
+        public float vertP;
+        public float vertI;
+        public float vertD;
+        public float vertIsat;
+        [Space]
+        
+        public float x_P;
+        public float x_I;
+        public float x_D;
+        public float x_Isat;
+        [Space]
+
+        public float z_P;
+        public float z_I;
+        public float z_D;
+        public float z_Isat;
+
+
+
+        [Space]
+        [Space]
+        
+        
+        private bool previousGenerateRandomRotationState;
+        [Header("RotationPID")]
+        public bool generateRandomRotation;
+        public bool enableRotationPID;
+
+        [Header("Tilt vectors")]
+        [Range(-1, 1)]
+        public float XRotationCorrection;
+        [Range(-1, 1)]
+        public float ZRotationCorrection;
+        [Range(-1, 1)]
+        public float YRotationCorrection;
+
+        public float maxXTilt;
+        public float maxZTilt;
+        public float maxYTilt;
+        public float targetRotationX;
+        public float targetRotationZ;
+        public float targetRotationY;
+        public float rotP;
+        public float rotI;
+        public float rotD;
+        public float rotIsat;
+
+
+
+
+
+
+        // Start is called before the first frame update
+        void Start()
         {
-            Thrusters.Add(ThrusterObject.getValues());
-        }
 
-
-
-        #region Mesh Combineing
-
-        //ooga booga mesh combinign has to happen at world origin
-        startLocationForMeshCombining = transform.position;
-        transform.position = Vector3.zero;
-
-
-
-        physics = GetComponent<Rigidbody>();
-        MeshCollider M_collider = GetComponent<MeshCollider>();
-
-
-       // List<MeshFilter> meshFiltersListBeforeRemovingUnwanted = new(GetComponentsInChildren<MeshFilter>());
-       // meshFiltersListBeforeRemovingUnwanted.RemoveAll(x => x.CompareTag("IgnoreMeshBlending") == false);
-
-        /*
-        foreach (MeshFilter mf in meshFiltersListBeforeRemovingUnwanted)
-        {
-            if (mf.gameObject.CompareTag("IgnoreMeshBlending"))
+            ThrusterObjectHolder[] thrustersAsArray = transform.GetComponentsInChildren<ThrusterObjectHolder>();
+            foreach(ThrusterObjectHolder ThrusterObject in thrustersAsArray)
             {
-                meshFiltersListBeforeRemovingUnwanted.Remove(mf); ;
+                Thrusters.Add(ThrusterObject.getValues());
             }
-        }
-        */
 
-        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
 
-        CombineInstance[] combine = new CombineInstance[meshFilters.Length];
 
-        int i = 0;
-        while (i < meshFilters.Length)
-        {
-            
-            combine[i].mesh = meshFilters[i].sharedMesh;
+            #region Mesh Combineing
 
-            if (i != 0) combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+            //ooga booga mesh combinign has to happen at world origin
+            startLocationForMeshCombining = transform.position;
+            transform.position = Vector3.zero;
+
+
+
+            physics = GetComponent<Rigidbody>();
+            MeshCollider M_collider = GetComponent<MeshCollider>();
+
+
+        // List<MeshFilter> meshFiltersListBeforeRemovingUnwanted = new(GetComponentsInChildren<MeshFilter>());
+        // meshFiltersListBeforeRemovingUnwanted.RemoveAll(x => x.CompareTag("IgnoreMeshBlending") == false);
 
             /*
-            if (meshFilters[i].gameObject.GetComponent<ThrusterObjectHolder>() != null)
+            foreach (MeshFilter mf in meshFiltersListBeforeRemovingUnwanted)
             {
-                Thrusters.Add(meshFilters[i].gameObject.GetComponent<ThrusterObjectHolder>().getValues());
+                if (mf.gameObject.CompareTag("IgnoreMeshBlending"))
+                {
+                    meshFiltersListBeforeRemovingUnwanted.Remove(mf); ;
+                }
             }
             */
 
-            //preventing the deletion of the parent ovject itself since getcompenetsInChelidren retursn parent object component first.
-            if (i != 0 && meshFilters[i].CompareTag("IgnoreMeshBlending") == false) Destroy(meshFilters[i].gameObject);
+            MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
 
-            i++;
-        }
-        transform.GetComponent<MeshFilter>().mesh = new Mesh();
-        transform.GetComponent<MeshFilter>().mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-        transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine, true);
+            CombineInstance[] combine = new CombineInstance[meshFilters.Length];
 
-        transform.gameObject.SetActive(true);
-
-        M_collider.sharedMesh = transform.GetComponent<MeshFilter>().mesh;
-
-
-        //mesh combinbing has to happen at world origign
-        transform.position = startLocationForMeshCombining;
-
-        #endregion
-
-
-        Thruster[] ThrustersReGrouper = new Thruster[4];
-        ThrustersReGrouper = Thrusters.ToArray();
-
-        //topLeftThruster = ThrustersReGrouper[0]
-        HeightPIDController = new(vertP, vertI, vertD, vertIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-        XTransPIDController = new(x_P, x_I, x_D, x_Isat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-        ZTransPIDController = new(z_P, z_I, z_D, z_Isat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-
-        xRotationPIDController = new(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-        zRotationPIDController = new(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-        yRotationPIDController = new(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-
-        xRotationPIDController.outputMin = -1;
-        zRotationPIDController.outputMin = -1;
-        yRotationPIDController.outputMin = -1;
-
-        XTransPIDController.outputMin = -1;
-        ZTransPIDController.outputMin = -1;
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        topLeftThruster = 0;
-        BottomLeftThruster = 0;
-        topRightThruster = 0;
-        BottomRightThruster = 0;
-
-        if(generateRandomRotation != previousGenerateRandomRotationState)
-        {
-            transform.rotation = Quaternion.Euler(Random.Range(-180, 180), Random.Range(-180, 180), Random.Range(-180, 180));
-            previousGenerateRandomRotationState = generateRandomRotation;
-        }
-
-
-
-        if (EnableTranslationalPID)
-        {
-            HeightPIDController.updateCoeffecients(vertP, vertI, vertD, vertIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-            XTransPIDController.updateCoeffecients(x_P, x_I, x_D, x_Isat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-            ZTransPIDController.updateCoeffecients(z_P, z_I, z_D, z_Isat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-
-            //float verticalInput = Input.GetAxis("Vertical");
-            float verticalInput = Input.GetAxis("ForwardJoy");
-            //float horizontalInput = Input.GetAxis("Horizontal");
-            float horizontalInput = Input.GetAxis("SidewardJoy");
-            float verticalJoyInput = Input.GetAxis("VerticalJoy");
-
-
-            VIP = verticalInput;
-            HIP = horizontalInput;
-            VJOYIP = verticalJoyInput;
-
-
-
-            if (verticalInput != 0)
+            int i = 0;
+            while (i < meshFilters.Length)
             {
-                TargetVectorCoordinate.z = transform.position.z + verticalInput * InputSensitivity;
-                lastz = transform.position.z;
+                
+                combine[i].mesh = meshFilters[i].sharedMesh;
+
+                if (i != 0) combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+
+                /*
+                if (meshFilters[i].gameObject.GetComponent<ThrusterObjectHolder>() != null)
+                {
+                    Thrusters.Add(meshFilters[i].gameObject.GetComponent<ThrusterObjectHolder>().getValues());
+                }
+                */
+
+                //preventing the deletion of the parent ovject itself since getcompenetsInChelidren retursn parent object component first.
+                if (i != 0 && meshFilters[i].CompareTag("IgnoreMeshBlending") == false) Destroy(meshFilters[i].gameObject);
+
+                i++;
             }
+            transform.GetComponent<MeshFilter>().mesh = new Mesh();
+            transform.GetComponent<MeshFilter>().mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+            transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine, true);
 
-            if (horizontalInput != 0)
-            {
-                TargetVectorCoordinate.x = transform.position.x + horizontalInput * InputSensitivity;
-                lastx = transform.position.x;
-            }
+            transform.gameObject.SetActive(true);
 
-            if(verticalJoyInput != 0)
+            M_collider.sharedMesh = transform.GetComponent<MeshFilter>().mesh;
+
+
+            //mesh combinbing has to happen at world origign
+            transform.position = startLocationForMeshCombining;
+
+            #endregion
+
+
+            Thruster[] ThrustersReGrouper = new Thruster[4];
+            ThrustersReGrouper = Thrusters.ToArray();
+
+            //topLeftThruster = ThrustersReGrouper[0]
+            HeightPIDController = new(vertP, vertI, vertD, vertIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+            XTransPIDController = new(x_P, x_I, x_D, x_Isat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+            ZTransPIDController = new(z_P, z_I, z_D, z_Isat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+
+            xRotationPIDController = new(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+            zRotationPIDController = new(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+            yRotationPIDController = new(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+
+            xRotationPIDController.outputMin = -1;
+            zRotationPIDController.outputMin = -1;
+            yRotationPIDController.outputMin = -1;
+
+            XTransPIDController.outputMin = -1;
+            ZTransPIDController.outputMin = -1;
+        }
+
+        // Update is called once per frame
+        void FixedUpdate()
+        {
+            topLeftThruster = 0;
+            BottomLeftThruster = 0;
+            topRightThruster = 0;
+            BottomRightThruster = 0;
+
+            if(generateRandomRotation != previousGenerateRandomRotationState)
             {
-                TargetVectorCoordinate.y = transform.position.y + verticalJoyInput * HeightControllSensitivity;
-                lasty = transform.position.y;
+                transform.rotation = Quaternion.Euler(Random.Range(-180, 180), Random.Range(-180, 180), Random.Range(-180, 180));
+                previousGenerateRandomRotationState = generateRandomRotation;
             }
 
 
-            if (horizontalInput == 0) TargetVectorCoordinate.x = lastx;
-            if (verticalInput == 0) TargetVectorCoordinate.z = lastz;
-            if (verticalJoyInput == 0) TargetVectorCoordinate.y = lasty;
+
+            if (EnableTranslationalPID)
+            {
+                HeightPIDController.updateCoeffecients(vertP, vertI, vertD, vertIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+                XTransPIDController.updateCoeffecients(x_P, x_I, x_D, x_Isat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+                ZTransPIDController.updateCoeffecients(z_P, z_I, z_D, z_Isat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+
+                //float verticalInput = Input.GetAxis("Vertical");
+                float verticalInput = Input.GetAxis("ForwardJoy");
+                //float horizontalInput = Input.GetAxis("Horizontal");
+                float horizontalInput = Input.GetAxis("SidewardJoy");
+                float verticalJoyInput = Input.GetAxis("VerticalJoy");
 
 
-            Vector3 TargetCoordinateDirectionVector = new Vector3(TargetVectorCoordinate.x - transform.position.x, 0 , TargetVectorCoordinate.z - transform.position.z);
+                VIP = verticalInput;
+                HIP = horizontalInput;
+                VJOYIP = verticalJoyInput;
 
-            HeightDifferential = HeightPIDController.Update(Time.deltaTime, transform.position.y, TargetVectorCoordinate.y);
-            HeightDifferential = Mathf.Clamp(HeightDifferential, 0, 1);
 
-            XDifferential = XTransPIDController.Update(Time.deltaTime, transform.position.x, transform.TransformPoint(TargetCoordinateDirectionVector).x);
-            ZDifferential = ZTransPIDController.Update(Time.deltaTime, transform.position.z, transform.TransformPoint(TargetCoordinateDirectionVector).z);
 
-            // XDifferential = XTransPIDController.Update(Time.deltaTime, transform.position.x , transform.TransformDirection(TargetVectorCoordinate).x);
-            // ZDifferential = ZTransPIDController.Update(Time.deltaTime, transform.position.z, transform.TransformDirection(TargetVectorCoordinate).z);
+                if (verticalInput != 0)
+                {
+                    TargetVectorCoordinate.z = transform.position.z + verticalInput * InputSensitivity;
+                    lastz = transform.position.z;
+                }
 
-            targetRotationZ = maxZTilt * -XDifferential;
-            targetRotationX = maxXTilt * ZDifferential;
-            
+                if (horizontalInput != 0)
+                {
+                    TargetVectorCoordinate.x = transform.position.x + horizontalInput * InputSensitivity;
+                    lastx = transform.position.x;
+                }
+
+                if(verticalJoyInput != 0)
+                {
+                    TargetVectorCoordinate.y = transform.position.y + verticalJoyInput * HeightControllSensitivity;
+                    lasty = transform.position.y;
+                }
+
+
+                if (horizontalInput == 0) TargetVectorCoordinate.x = lastx;
+                if (verticalInput == 0) TargetVectorCoordinate.z = lastz;
+                if (verticalJoyInput == 0) TargetVectorCoordinate.y = lasty;
+
+
+                Vector3 TargetCoordinateDirectionVector = new Vector3(TargetVectorCoordinate.x - transform.position.x, 0 , TargetVectorCoordinate.z - transform.position.z);
+
+                HeightDifferential = HeightPIDController.Update(Time.deltaTime, transform.position.y, TargetVectorCoordinate.y);
+                HeightDifferential = Mathf.Clamp(HeightDifferential, 0, 1);
+
+                XDifferential = XTransPIDController.Update(Time.deltaTime, transform.position.x, transform.TransformPoint(TargetCoordinateDirectionVector).x);
+                ZDifferential = ZTransPIDController.Update(Time.deltaTime, transform.position.z, transform.TransformPoint(TargetCoordinateDirectionVector).z);
+
+                // XDifferential = XTransPIDController.Update(Time.deltaTime, transform.position.x , transform.TransformDirection(TargetVectorCoordinate).x);
+                // ZDifferential = ZTransPIDController.Update(Time.deltaTime, transform.position.z, transform.TransformDirection(TargetVectorCoordinate).z);
+
+                targetRotationZ = maxZTilt * -XDifferential;
+                targetRotationX = maxXTilt * ZDifferential;
+                
+            }
+            else
+            {
+                HeightPIDController.Reset();
+            }
+
+            topLeftThruster += HeightDifferential;
+            BottomLeftThruster += HeightDifferential;
+            BottomRightThruster += HeightDifferential;
+            topRightThruster += HeightDifferential;
+
+
+            if (enableRotationPID)
+            {
+                xRotationPIDController.updateCoeffecients(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+                zRotationPIDController.updateCoeffecients(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+                yRotationPIDController.updateCoeffecients(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
+
+                XRotationCorrection = xRotationPIDController.UpdateAngle(Time.deltaTime, transform.rotation.eulerAngles.x, targetRotationX);
+                ZRotationCorrection = zRotationPIDController.UpdateAngle(Time.deltaTime, transform.rotation.eulerAngles.z, targetRotationZ);
+                YRotationCorrection = yRotationPIDController.UpdateAngle(Time.deltaTime, transform.rotation.eulerAngles.y, targetRotationY);
+
+
+
+                //Debug.Log("Modulo angle = " + ((targetRotationY - transform.rotation.eulerAngles.y + 540) % 360 - 180));
+                //Debug.Log("Quaternion.Angle = " + Quaternion.Angle(transform.rotation, Quaternion.Euler(0, targetRotationY, 0)));
+                //X tilti correction
+                topLeftThruster -= XRotationCorrection;
+                topRightThruster -= XRotationCorrection;
+
+                BottomLeftThruster += XRotationCorrection;
+                BottomRightThruster += XRotationCorrection;
+
+
+
+                //Z tilit correction
+                BottomLeftThruster -= ZRotationCorrection;
+                topLeftThruster -= ZRotationCorrection;
+
+                BottomRightThruster += ZRotationCorrection;
+                topRightThruster += ZRotationCorrection;
+
+
+
+                //y rotation correction
+                topLeftThruster += YRotationCorrection;
+                BottomRightThruster += YRotationCorrection;
+
+                topRightThruster -= YRotationCorrection;
+                BottomLeftThruster -= YRotationCorrection;
+            }
+            else
+            {
+                xRotationPIDController.Reset();
+                zRotationPIDController.Reset();
+                yRotationPIDController.Reset();
+            }
+
+            //if (previousCollectivethrottle != allThrustersThrottle)
+            //{
+
+            //    previousCollectivethrottle = allThrustersThrottle;
+            //}
+
+            topLeftThruster = Mathf.Clamp(topLeftThruster, 0, 1);
+            topRightThruster = Mathf.Clamp(topRightThruster, 0, 1);
+            BottomLeftThruster = Mathf.Clamp(BottomLeftThruster, 0, 1);
+            BottomRightThruster = Mathf.Clamp(BottomRightThruster, 0, 1);
+
+
+            Thrusters[0].Throttle = Mathf.Lerp(Thrusters[0].Throttle, topLeftThruster, ThrusterThrottleSmoothness);
+            Thrusters[1].Throttle = Mathf.Lerp(Thrusters[1].Throttle, BottomLeftThruster, ThrusterThrottleSmoothness); 
+            Thrusters[2].Throttle = Mathf.Lerp(Thrusters[2].Throttle, BottomRightThruster, ThrusterThrottleSmoothness); 
+            Thrusters[3].Throttle = Mathf.Lerp(Thrusters[3].Throttle, topRightThruster, ThrusterThrottleSmoothness); 
+
+            if (enableThrusters)
+            {
+                foreach (Thruster thruster in Thrusters)
+                {
+                    float noise = 0;
+                    if (enableNoiseInfluence) noise = Random.Range(-maxNoiseThreshold, maxNoiseThreshold);
+                    physics.AddForceAtPosition((transform.rotation * thruster.forceVectorDirection) * Mathf.Clamp( thruster.Throttle + noise, 0, 1) * thruster.maxThrust, transform.TransformPoint(thruster.relativePosition), ForceMode.Force);
+                }
+            }
         }
-        else
-        {
-            HeightPIDController.Reset();
-        }
 
-        topLeftThruster += HeightDifferential;
-        BottomLeftThruster += HeightDifferential;
-        BottomRightThruster += HeightDifferential;
-        topRightThruster += HeightDifferential;
-
-
-        if (enableRotationPID)
-        {
-            xRotationPIDController.updateCoeffecients(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-            zRotationPIDController.updateCoeffecients(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-            yRotationPIDController.updateCoeffecients(rotP, rotI, rotD, rotIsat, PIDmainClass.DerivativeMeasurement.ErrorRateOfChange);
-
-            XRotationCorrection = xRotationPIDController.UpdateAngle(Time.deltaTime, transform.rotation.eulerAngles.x, targetRotationX);
-            ZRotationCorrection = zRotationPIDController.UpdateAngle(Time.deltaTime, transform.rotation.eulerAngles.z, targetRotationZ);
-            YRotationCorrection = yRotationPIDController.UpdateAngle(Time.deltaTime, transform.rotation.eulerAngles.y, targetRotationY);
-
-
-
-            //Debug.Log("Modulo angle = " + ((targetRotationY - transform.rotation.eulerAngles.y + 540) % 360 - 180));
-            //Debug.Log("Quaternion.Angle = " + Quaternion.Angle(transform.rotation, Quaternion.Euler(0, targetRotationY, 0)));
-            //X tilti correction
-            topLeftThruster -= XRotationCorrection;
-            topRightThruster -= XRotationCorrection;
-
-            BottomLeftThruster += XRotationCorrection;
-            BottomRightThruster += XRotationCorrection;
-
-
-
-            //Z tilit correction
-            BottomLeftThruster -= ZRotationCorrection;
-            topLeftThruster -= ZRotationCorrection;
-
-            BottomRightThruster += ZRotationCorrection;
-            topRightThruster += ZRotationCorrection;
-
-
-
-            //y rotation correction
-            topLeftThruster += YRotationCorrection;
-            BottomRightThruster += YRotationCorrection;
-
-            topRightThruster -= YRotationCorrection;
-            BottomLeftThruster -= YRotationCorrection;
-        }
-        else
-        {
-            xRotationPIDController.Reset();
-            zRotationPIDController.Reset();
-            yRotationPIDController.Reset();
-        }
-
-        //if (previousCollectivethrottle != allThrustersThrottle)
-        //{
-
-        //    previousCollectivethrottle = allThrustersThrottle;
-        //}
-
-        topLeftThruster = Mathf.Clamp(topLeftThruster, 0, 1);
-        topRightThruster = Mathf.Clamp(topRightThruster, 0, 1);
-        BottomLeftThruster = Mathf.Clamp(BottomLeftThruster, 0, 1);
-        BottomRightThruster = Mathf.Clamp(BottomRightThruster, 0, 1);
-
-
-        Thrusters[0].Throttle = Mathf.Lerp(Thrusters[0].Throttle, topLeftThruster, ThrusterThrottleSmoothness);
-        Thrusters[1].Throttle = Mathf.Lerp(Thrusters[1].Throttle, BottomLeftThruster, ThrusterThrottleSmoothness); 
-        Thrusters[2].Throttle = Mathf.Lerp(Thrusters[2].Throttle, BottomRightThruster, ThrusterThrottleSmoothness); 
-        Thrusters[3].Throttle = Mathf.Lerp(Thrusters[3].Throttle, topRightThruster, ThrusterThrottleSmoothness); 
-
-        if (enableThrusters)
+        private void OnDrawGizmos()
         {
             foreach (Thruster thruster in Thrusters)
             {
-                float noise = 0;
-                if (enableNoiseInfluence) noise = Random.Range(-maxNoiseThreshold, maxNoiseThreshold);
-                physics.AddForceAtPosition((transform.rotation * thruster.forceVectorDirection) * Mathf.Clamp( thruster.Throttle + noise, 0, 1) * thruster.maxThrust, transform.TransformPoint(thruster.relativePosition), ForceMode.Force);
+                Debug.DrawLine( transform.TransformPoint(thruster.relativePosition), transform.TransformPoint(thruster.relativePosition + thruster.forceVectorDirection * thruster.Throttle * 2), Color.red);
             }
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        foreach (Thruster thruster in Thrusters)
-        {
-            Debug.DrawLine( transform.TransformPoint(thruster.relativePosition), transform.TransformPoint(thruster.relativePosition + thruster.forceVectorDirection * thruster.Throttle * 2), Color.red);
-        }
-    }
-}
-            </code></pre>
+                </code></pre>
+            </div>
         </div>
     </div>
 </div>
