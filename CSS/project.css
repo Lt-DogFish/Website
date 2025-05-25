@@ -17,28 +17,32 @@
 
 		.sub-segments
 		{
-			border: 1px;
-			border-color: white;
-			border-radius: 1vh;
-
-			background-color: #242424;
 			width: 50vw;
 			height: 80vh;
+
 			overflow: scroll;
+
+			border: .25vh dashed white;
 		}
 
 		.code-container
 		{
-			.code
+			pre
 			{
-				background-color: black;
-				padding: 0px;
+				margin: 0px;
+				.code
+				{
+					background-color: white;
+					padding: 0px;
+					padding-left: 1vw;
+				}
 			}
 		}
 
 		.code-description
 		{
-			color: white;
+			background-color: #dadada;
+			color: black;
 
 			text-align: center;
 		}
