@@ -4,7 +4,10 @@
 	flex: content;
 	flex-wrap: wrap;
 	flex-direction: column;
-	background-color: #121212;
+	background-color: white;
+
+	font-family: monospace;
+
 	width: 100vw;
 
 	.code-segment
@@ -15,24 +18,35 @@
         align-items: center;
         flex-direction: row;
 
-		.sub-segments
-		{
-			width: 50vw;
-			height: 80vh;
+			.sub-segments
+			{
+				width: 50vw;
+				height: 80vh;
 
-			overflow: scroll;
-
-			border: .25vh dotted white;
-		}
+				border: .25vh solid #999999;
+				border-radius: 1vh;
+			}
 
 		.code-container
 		{
+			overflow: scroll;
+
+			.shelf
+			{
+
+				background-color: #dadada;
+				color: black;
+
+				padding: .5vw;
+
+				position: absolute;
+			}
+
 			pre
 			{
 				margin: 0px;
 				.code
 				{
-					background-color: white;
 					padding: 0px;
 					padding-left: 1vw;
 				}
