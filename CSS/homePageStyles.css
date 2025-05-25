@@ -21,6 +21,7 @@
 }
 
 .intro {
+	background: linear-gradient(to bottom, rgba(var(--BackgroundColorrgb1),1) 50%, rgba( 18,0,11, 1) 100%) top;
 	height: 200vh;
 	width: 100vw;
 	align-items: center;
