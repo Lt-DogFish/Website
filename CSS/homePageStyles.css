@@ -28,8 +28,27 @@
 }
 
 .intro-toparea{
+	background-color: hotpink;
 	display: block;
-	height: 50vh;
+	width: 65vw;
+	margin: 0 auto;
+	
+	
+	.tiny-title{
+		font-size: 10em;
+		text-shadow: -15px 15px 10px black;
+
+	}
+
+	.large-title{
+		font-size: 15em;
+
+
+	}
+
+	.right{
+		text-align: right;
+	}
 
 }
 
@@ -321,8 +340,13 @@
 }
 
 .drawer-grid {
-	display: flexbox;
-	
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start; /* or center, space-between, etc. */
+	align-items: flex-start;     /* controls vertical alignment */
+	gap: 1rem;                   /* spacing between items */
+	background-color: black;
+	padding: 1rem;
 }
 
 
