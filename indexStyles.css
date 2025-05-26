@@ -17,16 +17,19 @@
 	--MenuTabFontSize : 2em;
 
 	--Primary: rgb(255, 255, 255);
-	--Secondary: rgb(0, 0, 0);
-	--Text: rgb(0, 0, 0);
+	--Secondary: rgb(36, 36, 36);
+	--Text: rgb(36, 36, 36);
 	--TextInverted: rgb(255, 255, 255);
-	--Borders: rgb(0, 0, 0);
+	--SpecialText: rgb(255, 215, 0);
+	--Borders: rgb(36, 36, 36);
 	--BordersInverted: rgb(255, 255, 255);
+
+	--Title: rgb(36, 36, 36);
 
 	--CardColor: rgb(93, 93, 93);
 
 	--Primaryrgb: 255, 255, 255;
-	--Secondaryrgb: 0, 0, 0;
+	--Secondaryrgb: 36, 36, 36;
 	--Cardrgb: 93, 93, 93;
 	--BackgroundColorrgb1: 255, 255, 255 ;
 	--BackgroundColorrgb2: 255, 255, 255 ;
@@ -127,7 +130,7 @@ body {
 .MenuTab.Special:hover
 {
 
-	color: TextInverted;
+	color: var(--SpecialText);
 
 
 	box-shadow: black 0px 0px 0px 1px inset ; 
@@ -157,7 +160,7 @@ body {
 }
 @keyframes flash {
 	0%	{
-			background: black;
+			background: var(--SpecialText);
 			color: var(--TextInverted);
 		}
 
@@ -191,7 +194,7 @@ body {
   height: 1px;
   bottom: 0;
   left: 0;
-  background-color: var(--Secondary);
+  background-color: var(--SpecialText);
   transform-origin: top;
   transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
 }
@@ -343,5 +346,19 @@ body {
 .aref-ruqaa-bold {
   font-family: "Aref Ruqaa", serif;
   font-weight: 700;
+  font-style: normal;
+}
+
+.cinzel {
+  font-family: "Cinzel", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.inter {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
   font-style: normal;
 }

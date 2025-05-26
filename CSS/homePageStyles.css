@@ -5,9 +5,7 @@
 	--NamePanelAnimDuration: 0.8;
 	--SpanCharactersAnimDuration: 1;
 
-	--CalulatedInitialDelay: calc((var(--BlurShrinkAnimDuration) + var(--NamePanelAnimDuration)) - 2)
-
-	
+	--CalulatedInitialDelay: calc((var(--BlurShrinkAnimDuration) + var(--NamePanelAnimDuration)) - 2);
 }
 
 
@@ -29,6 +27,7 @@
 }
 
 .intro-toparea {
+	padding-top: 10vh;
 	background-color: rgb(255, 255, 255);
 	display: flex;
 	flex-direction: column;
@@ -38,30 +37,31 @@
 	line-height: 1;
 
 	.tiny-title {
+		color: var(--Title);
 		display: block;
 		margin: 0;
 		font-size: 3em;
-		text-shadow: -2px 2px 2px rgba(0, 0, 0, 0.5);
+		text-shadow: -15px 15px 10px rgba(0, 0, 0, 0.5);
 		width: 100%;
 	}
 
 	.large-title {
 		display: inline-block;
-		margin: -0.2em 0; 
-		color: white;
+		margin: 0em 0; 
+		color: var(--Title);
 		font-size: 20em;
 		line-height: 1;
 		text-shadow: 
-			-15px 15px 10px rgba(0, 0, 0, 0.5),
+			-15px 15px 10px rgba(0, 0, 0, 0.5);/*
 			-1px -1px 0 black,
 			 1px -1px 0 black,
 			-1px  1px 0 black,
-			 1px  1px 0 black;
+			 1px  1px 0 black;*/
 	}
 
 	.left {
 		text-align: left;
-		padding-left: 0.3em;
+		padding-left: 0.45em;
 	}
 
 	.right {
@@ -73,7 +73,11 @@
 	}
 
 	.top-title{
-		margin: 0.8em 0;
+		margin: -0.8em 0;
+	}
+
+	.bottom-title{
+		margin: -0.6em 0;
 	}
 }
 
@@ -89,7 +93,7 @@
   	width: 80vw;
   	
   	display: block;
-	box-shadow: 0px 0px 5px rgba(33, 33, 33, 1), -15px 15px 10px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 0px 5px rgba(33, 33, 33, 1), -50px 50px 25px rgba(0, 0, 0, 0.5);
 	border-color: var(--Secondary);
 	border-width: 2px;
 	border-style: solid;
