@@ -26,6 +26,19 @@
 
 	--Title: rgb(36, 36, 36);
 
+	--RadialInner: rgb(36, 36, 36);
+	--RadialOuter: rgb(255, 255, 255);
+
+	--BackgroundTop: rgb(255, 255, 255);
+	--backgroundBottom: rgb(36, 36, 36);
+	
+
+	--Radialinrgb: 36, 36, 36;
+	--Radialoutrgb: 255, 255, 255;
+
+	--bgtoprgb: 255, 255, 255;
+	--bgbottomrgb: 36, 36, 36;
+
 	--CardColor: rgb(93, 93, 93);
 
 	--Primaryrgb: 255, 255, 255;
@@ -35,9 +48,14 @@
 	--BackgroundColorrgb2: 255, 255, 255 ;
 }
 
+html {
+	font-size: 1vw
+}
+
 body {
-	/*background: radial-gradient(circle, transparent 50%, var(--BaseLight1) 100%);*/
-	background: linear-gradient(to bottom, rgba(var(--BackgroundColorrgb1),1) 50%, rgba(var(--BackgroundColorrgb2), 1) 50%) top;
+	background: radial-gradient(circle, rgba(var(--Radialinrgb), 0.7) 0%, rgba(var(--Radialoutrgb),0.3) 80%), linear-gradient(to bottom, rgba(var(--bgtoprgb),1) 0%, rgba(var(--bgbottomrgb), 1) 80%) top;
+	backdrop-filter: blur(0px);
+	/*background: linear-gradient(to bottom, rgba(var(--BackgroundColorrgb1),1) 50%, rgba(var(--BackgroundColorrgb2), 1) 50%) top;*/
 
 }
 
