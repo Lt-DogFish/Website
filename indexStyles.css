@@ -52,6 +52,8 @@ html {
 	font-size: 1vw
 }
 
+
+/* the bottom section causes the shelf to not stay fixed to the top of the viewport during scroll*/
 body {
 	background: radial-gradient(circle, rgba(var(--Radialinrgb), 0.7) 0%, rgba(var(--Radialoutrgb),0.3) 80%), linear-gradient(to bottom, rgba(var(--bgtoprgb),1) 0%, rgba(var(--bgbottomrgb), 1) 80%) top;
 	backdrop-filter: blur(0px);
@@ -74,7 +76,7 @@ body {
 .Shelf	{
 	z-index: 100;
 	position: fixed;
-	display: flexbox;
+	display: block;
 	width: 100vw;
 	
 	background-color: rgba(var(--Primaryrgb), 0.1);
@@ -91,7 +93,7 @@ body {
 .TopBar {
 	z-index: 101;
 	
-	display: flexbox;
+	display: block;
 	box-sizing: border-box;
 	
 	
