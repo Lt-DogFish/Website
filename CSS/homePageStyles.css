@@ -27,7 +27,8 @@
 }
 
 .intro-toparea {
-	padding-top: 10vh;
+	padding-top: 25vh;
+	padding-bottom: 5vh;
 	
 	display: flex;
 	flex-direction: column;
