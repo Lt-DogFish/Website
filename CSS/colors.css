@@ -3,33 +3,51 @@
 
 :root
 {
-	--NeonOrange: #ff6d1f;
-	--Orange: #fc7449;
-	--Gray: #414141;
-	--Gray0_5: #ffffff;
-	/*--LightBeige: #ffffff;*/
-	/*--FlashColor: #caff45;*/
-	--FlashColor: #eac9aa;
+	--Back : white;
+	--color1: rgb(244, 247, 237);
+	--color2: rgb(255, 207, 86);
+	--color3: rgb(252, 111, 83);
+	--color4: rgb(220, 247, 144);
+	--color5: rgb(147, 196, 166);
 
-	--MudBrown: #896c67;
-	--PaleOrange: #ec8e75;
-	--ScotchBiege: #eac9aa;
-	--ScotchBiegeDrk: #b2987f;
-	--BananaYellow: #f6dda7;
-	--HamamamGreen: #82a18f;
 
-	--FlashColor : var(--ScotchBiege);
+	--FlashColor : rgb(148, 242, 148);
 
+
+
+
+
+
+	--MenuTabFontSize : 20;
+
+	--Primary: rgb(255, 255, 255);
+	--Secondary: rgb(36, 36, 36);
+	--Text: rgb(36, 36, 36);
+	--TextInverted: rgb(255, 255, 255);
+	--SpecialText: rgb(255, 215, 0);
+	--Borders: rgb(36, 36, 36);
+	--BordersInverted: rgb(255, 255, 255);
+
+	--Title: rgb(36, 36, 36);
+
+	--RadialInner: rgb(36, 36, 36);
+	--RadialOuter: rgb(255, 255, 255);
+
+	--BackgroundTop: rgb(255, 254, 215);
+	--backgroundBottom: rgb(209, 255, 253);
 	
-	--BaseLight1: #e6e0dc;
-	--Biege1: #c1ad9b;
-	--Biege2: #c6beb4;
-	--Gray1: #bebab6;
-	--Gray2: #b8b8b8;
 
+	--Radialinrgb: 255, 254, 215;
+	--Radialoutrgb: 209, 255, 253;
 
-	--Gray3: #ffffff;
+	--bgtoprgb: 209, 255, 253;
+	--bgbottomrgb: 255, 254, 215;
 
+	--CardColor: rgb(93, 93, 93);
 
-	--Gray0_5: #000000;
+	--Primaryrgb: 255, 255, 255;
+	--Secondaryrgb: 36, 36, 36;
+	--Cardrgb: 93, 93, 93;
+	--BackgroundColorrgb1: 255, 255, 255 ;
+	--BackgroundColorrgb2: 255, 255, 255 ;
 }

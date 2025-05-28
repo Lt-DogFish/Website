@@ -2,50 +2,6 @@
 
 * {
 	box-sizing: content-box;
-	
-}
-
-:root {
-	--Primary: var(--Gray0_5);
-	--Secondary: var(--Gray3);
-	--Secondary2:  var(--Gray0_5);
-	--Accent:	var(--Gray3);
-	--Border1: var(--Gray3);
-	--Text1: var(--Gray3);
-	--TextInverted: var(--Gray0_5);
-
-	--MenuTabFontSize : 2em;
-
-	--Primary: rgb(255, 255, 255);
-	--Secondary: rgb(36, 36, 36);
-	--Text: rgb(36, 36, 36);
-	--TextInverted: rgb(255, 255, 255);
-	--SpecialText: rgb(255, 215, 0);
-	--Borders: rgb(36, 36, 36);
-	--BordersInverted: rgb(255, 255, 255);
-
-	--Title: rgb(36, 36, 36);
-
-	--RadialInner: rgb(36, 36, 36);
-	--RadialOuter: rgb(255, 255, 255);
-
-	--BackgroundTop: rgb(255, 255, 255);
-	--backgroundBottom: rgb(36, 36, 36);
-	
-
-	--Radialinrgb: 36, 36, 36;
-	--Radialoutrgb: 255, 255, 255;
-
-	--bgtoprgb: 255, 255, 255;
-	--bgbottomrgb: 36, 36, 36;
-
-	--CardColor: rgb(93, 93, 93);
-
-	--Primaryrgb: 255, 255, 255;
-	--Secondaryrgb: 36, 36, 36;
-	--Cardrgb: 93, 93, 93;
-	--BackgroundColorrgb1: 255, 255, 255 ;
-	--BackgroundColorrgb2: 255, 255, 255 ;
 }
 
 html {
@@ -53,27 +9,22 @@ html {
 }
 
 
-/* the bottom section causes the shelf to not stay fixed to the top of the viewport during scroll*/
-body {
-	background: radial-gradient(circle, rgba(var(--Radialinrgb), 0.7) 0%, rgba(var(--Radialoutrgb),0.3) 80%), linear-gradient(to bottom, rgba(var(--bgtoprgb),1) 0%, rgba(var(--bgbottomrgb), 1) 80%) top;
-	backdrop-filter: blur(0px);
-	/*background: linear-gradient(to bottom, rgba(var(--BackgroundColorrgb1),1) 50%, rgba(var(--BackgroundColorrgb2), 1) 50%) top;*/
 
+
+/******************** Navigation bar ***********************/
+.Shelf	{
+	z-index: 100;
+	position: fixed;
+	display: block;
+	width: 100vw;
+
+
+	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
+	
 }
 
+.Shelf.track {
 
-
-
-
-
-
-
-
-
-
-/* Nav Bar*/
-
-.Shelf	{
 	z-index: 100;
 	position: fixed;
 	display: block;
@@ -82,13 +33,11 @@ body {
 	background-color: rgba(var(--Primaryrgb), 0.1);
 	backdrop-filter: blur(5px);
 	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
-	
 	border-bottom-color: var(--Borders);
 	border-bottom-width: 0.1vh;
 	border-bottom-style: solid;
+
 }
-
-
 
 .TopBar {
 	z-index: 101;
@@ -102,6 +51,7 @@ body {
 }
 
 
+/******************** Menu tab format and click flash ***********************/
 .MenuTab {
 	margin: 0 auto;
 	box-sizing: border-box;
@@ -111,7 +61,7 @@ body {
 	text-align: center;
 	padding: 10px 45px;
 	text-decoration: none;
-	font-size: var(--MenuTabFontSize);
+	font-size: 1.5rem;
 
 
 	background: linear-gradient(to bottom, rgba(var(--Primaryrgb),0) 50%, rgba(var(--Secondaryrgb), 1) 50%) top;
@@ -130,14 +80,13 @@ body {
 	text-align: center;
 	padding: 10px 45px;
 	text-decoration: none;
-	font-size: var(--MenuTabFontSize);
+	font-size: 1.5rem;
 
 	
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
 
 }
-
 .MenuTab:hover {
 	background-position: bottom;
 	color: var(--TextInverted);
@@ -146,7 +95,6 @@ body {
 	box-shadow: var(--Borders) 0px 0px 0px 1px inset ; 
 
 }
-
 .MenuTab.Special:hover
 {
 
@@ -156,7 +104,6 @@ body {
 	box-shadow: black 0px 0px 0px 1px inset ; 
 	
 }
-
 .MenuTab-noHoverAfterClick:hover {
 	
 	box-sizing: border-box;
@@ -165,14 +112,13 @@ body {
 	text-align: center;
 	padding: 10px 45px;
 	text-decoration: none;
-	font-size: var(--MenuTabFontSize);
+	font-size: 1.5rem;
 
 	
 	background-size: 100% 200%;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
 
 }
-
 .button.clicked {
 	animation: flash 0.1s ;
 
@@ -189,6 +135,8 @@ body {
 		}
 }
 
+
+/******************** Menut tab underline anim ***********************/
 .ElementWithUnderlineAnim {
 	display: block;
 	position: relative;
@@ -205,7 +153,6 @@ body {
   transform-origin: top;
   transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
 }
-
 .ElementWithUnderlineAnim.Special::after {
   content: '';
   position: absolute;
@@ -218,35 +165,21 @@ body {
   transform-origin: top;
   transition: transform 0.25s cubic-bezier(.77,.12,.16,.95);
 }
-
 .ElementWithUnderlineAnim:hover::after {
 	transform: scaleX(1);
 	transform-origin: bottom;
 }
 
 
-
-
-
-
-
-
-
-
+/******************** Index body and body.main ***********************/
 body {
+	background: radial-gradient(circle, rgba(var(--Radialinrgb), 0.7) 0%, rgba(var(--Radialoutrgb),0.3) 80%), linear-gradient(to bottom, rgba(var(--bgtoprgb),1) 0%, rgba(var(--bgbottomrgb), 1) 80%) top;
+	
+	/*background: linear-gradient(to bottom, rgba(var(--BackgroundColorrgb1),1) 50%, rgba(var(--BackgroundColorrgb2), 1) 50%) top;*/
 	background-color: var(--Secondary);
 	padding: 0px;
 	margin: 0px;
 }
-
-
-
-
-
-
-
-
-
 
 #main {
 	padding-top: 10vh;
@@ -255,11 +188,11 @@ body {
     flex-wrap: nowrap;
     flex-direction: column;
     align-items: center;
-}
-#main {
 	flex: 1;
 }
 
+
+/******************** Text Fade anim ***********************/
 .fade-in {
     opacity: 0;
     transform: translateY(1vh);
@@ -269,18 +202,6 @@ body {
     opacity: 1;
     transform: translateY(0vh);
 }
-
-
-.scroll
-{
-	color: pink;
-}
-
-
-
-
-
-
 
 
 /******************** Footer CSS ***********************/
@@ -302,16 +223,7 @@ body {
     /*flex-direction: column;*/
     justify-content: left;
     align-items: start;
-	
 }
-
-
-
-
-
-
-
-
 
 
 /********************** Fonts *************************/
@@ -343,39 +255,33 @@ body {
 	font-weight: 400;
 	font-style: normal;
 }
-
 .oswald-name {
   font-family: "Oswald", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
   font-style: normal;
 }
-
 .limelight-regular {
   font-family: "Limelight", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
-
 .aref-ruqaa-regular {
   font-family: "Aref Ruqaa", serif;
   font-weight: 400;
   font-style: normal;
 }
-
 .aref-ruqaa-bold {
   font-family: "Aref Ruqaa", serif;
   font-weight: 700;
   font-style: normal;
 }
-
 .cinzel {
   font-family: "Cinzel", serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
-
 .inter {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
