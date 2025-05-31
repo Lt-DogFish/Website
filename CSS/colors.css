@@ -30,18 +30,18 @@
 
 	--Title: rgb(36, 36, 36);
 
-	--RadialInner: rgb(36, 36, 36);
+	--RadialInner: rgb(255, 229, 152);
 	--RadialOuter: rgb(255, 255, 255);
 
-	--BackgroundTop: rgb(255, 254, 215);
-	--backgroundBottom: rgb(209, 255, 253);
+	--BackgroundTop: rgb(255, 255, 255);
+	--backgroundBottom: rgb(255, 255, 255);
 	
 
-	--Radialinrgb: 255, 254, 215;
-	--Radialoutrgb: 209, 255, 253;
+	--Radialinrgb: 255, 229, 152;
+	--Radialoutrgb: 255, 255, 255;
 
-	--bgtoprgb: 209, 255, 253;
-	--bgbottomrgb: 255, 254, 215;
+	--bgtoprgb: 255, 255, 255;
+	--bgbottomrgb: 255, 255, 255;
 
 	--CardColor: rgb(93, 93, 93);
 

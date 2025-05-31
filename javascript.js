@@ -197,7 +197,7 @@ function moveDrawer() {
 	// Update drawer position
 	drawerTopVH += deltaVH;
 
-	// Clamp it if needed (e.g., between 0 and 100)
+	
 	/*drawerTopVH = Math.max(0, Math.min(100, drawerTopVH));*/
 
 	// Apply new position
@@ -205,7 +205,22 @@ function moveDrawer() {
 	drawer.style.transform = `translateY(${drawerTopVH}vh)`;
 }
 
+function changeTopBarMode() {
+
+	const topBar = document.querySelector(".Shelf");
+
+	if (window.scrollY >= (window.innerHeight/100) * 10 ){
+
+		topBar.classList.add("track");
+	}
+	else {
+		topBar.classList.remove("track");
+	}
+
+}
+
 window.addEventListener("scroll", moveDrawer);
+window.addEventListener("scroll", changeTopBarMode);
 
 const elements = document.querySelectorAll(".slow-scroll");
 
