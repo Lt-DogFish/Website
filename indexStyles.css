@@ -13,10 +13,12 @@ html {
 
 /******************** Navigation bar ***********************/
 .Shelf	{
+	padding-top: 10vh;
 	z-index: 100;
 	position: absolute;
 	display: block;
 	width: 100vw;
+	
 
 
 	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
@@ -26,7 +28,7 @@ html {
 }
 
 .Shelf.track {
-
+	padding-top: 0vh;
 	z-index: 100;
 	position: fixed;
 	display: block;
@@ -47,6 +49,7 @@ html {
 @keyframes topBarAnim {
 
 	0% {
+		padding-top: 0vh;
 		opacity: 0;
 		transform: translateY(-5vh);
 	}
@@ -75,6 +78,7 @@ html {
 
 /******************** Menu tab format and click flash ***********************/
 .MenuTab {
+	border-bottom: 3px solid var(--color3);
 	margin: 0 auto;
 	box-sizing: border-box;
 	width: fit-content;
@@ -93,6 +97,7 @@ html {
 
 }
 .MenuTab-noHoverAfterClick {
+	border-bottom: 3px solid var(--color3);
 	margin: 0 auto;
 	box-sizing: border-box;
 	width: fit-content;
@@ -204,7 +209,7 @@ body {
 }
 
 #main {
-	padding-top: 10vh;
+	padding-top: 20vh;
 	display: flex;
     justify-content: center;
     flex-wrap: nowrap;
