@@ -209,7 +209,7 @@ function changeTopBarMode() {
 
 	const topBar = document.querySelector(".Shelf");
 
-	if (window.scrollY >= (window.innerHeight/100) * 10 ){
+	if (window.scrollY >= (window.innerHeight/100) * 5 ){
 
 		topBar.classList.add("track");
 	}

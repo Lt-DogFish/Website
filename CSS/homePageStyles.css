@@ -27,6 +27,7 @@
 }
 
 .intro-toparea {
+	background-color: var(--color3);
 	padding-top: 25vh;
 	padding-bottom: 5vh;
 	
@@ -50,7 +51,7 @@
 		display: inline-block;
 		margin: 0em 0; 
 		color: var(--Title);
-		font-size: 15rem;
+		font-size: 14.9rem;
 		line-height: 1;
 		text-shadow: 
 			-15px 15px 10px rgba(0, 0, 0, 0.5);/*
@@ -86,8 +87,9 @@
 
 .Video {
 	
-	object-fit: contain; /* This is key for cropping */
-  	object-position: center; /* Adjust focus area (optional) */
+	/* Crop */
+	object-fit: contain;
+  	object-position: center; 
 	
 	
 	margin: 0 auto;

@@ -24,24 +24,24 @@
 	--Secondary: rgb(36, 36, 36);
 	--Text: rgb(36, 36, 36);
 	--TextInverted: rgb(255, 255, 255);
-	--SpecialText: rgb(255, 215, 0);
+	--SpecialText: rgb(255, 255, 255);
 	--Borders: rgb(36, 36, 36);
-	--BordersInverted: rgb(255, 255, 255);
+	--BordersInverted: rgb(36, 36, 36);
 
 	--Title: rgb(36, 36, 36);
 
-	--RadialInner: rgb(255, 229, 152);
+	--RadialInner: rgb(180, 180, 180);
 	--RadialOuter: rgb(255, 255, 255);
 
 	--BackgroundTop: rgb(255, 255, 255);
-	--backgroundBottom: rgb(255, 255, 255);
+	--backgroundBottom: rgb(180, 180, 180);
 	
 
-	--Radialinrgb: 255, 229, 152;
+	--Radialinrgb: 180, 180, 180;
 	--Radialoutrgb: 255, 255, 255;
 
 	--bgtoprgb: 255, 255, 255;
-	--bgbottomrgb: 255, 255, 255;
+	--bgbottomrgb: 180, 180, 180;
 
 	--CardColor: rgb(93, 93, 93);
 
