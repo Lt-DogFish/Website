@@ -19,7 +19,6 @@
 }
 
 .intro {
-	
 	height: 200vh;
 	width: 100vw;
 	align-items: center;
@@ -30,6 +29,8 @@
 	background-color: var(--color3);
 	padding-top: 25vh;
 	padding-bottom: 5vh;
+	box-shadow: rgba(0, 0, 0, 0.5) -2px 2px 10px 2px;
+
 	
 	display: flex;
 	flex-direction: column;
