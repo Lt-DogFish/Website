@@ -13,7 +13,7 @@ html {
 
 /******************** Navigation bar ***********************/
 .Shelf	{
-	padding-top: 10vh;
+	padding-top: 5vh;
 	z-index: 100;
 	position: absolute;
 	display: block;
@@ -23,7 +23,7 @@ html {
 
 	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
 
-	transition: .3s cubic-bezier(.77,.12,.16,.95);
+	
 	
 }
 
@@ -50,8 +50,8 @@ html {
 
 	0% {
 		padding-top: 0vh;
-		opacity: 0;
-		transform: translateY(-5vh);
+		/*opacity: 0;*/
+		/*transform: translateY(-5vh);*/
 	}
 
 	50% {
@@ -59,8 +59,8 @@ html {
 	}
 
 	100% {
-		opacity: 1;
-		transform: translateY(0vh);
+		/*opacity: 1;*/
+		/*transform: translateY(0vh);*/
 	}
 }
 
@@ -155,7 +155,7 @@ html {
 @keyframes flash {
 	0%	{
 			box-shadow: var(--Secondary) 0px 0px 10px 10px inset ; 
-			background: var(--SpecialText);
+			background: rgba(0,0,0,0);
 			color: var(--TextInverted);
 		}
 
