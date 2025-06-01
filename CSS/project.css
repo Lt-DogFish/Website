@@ -24,7 +24,7 @@
 				height: 80vh;
 
 				border: .25vh solid #999999;
-				border-radius: 1vh;
+				border-radius: 0vh;
 			}
 
 		.code-container
@@ -34,19 +34,31 @@
 				background-color: #dadada;
 				color: black;
 
-				padding: .5vw;
+				padding: .5vh;
+
+				border-top-left-radius: inherit;
+				border-top-right-radius: inherit;
 			}
 
 			.code
 			{
-				height: inherit;
+				height: 77vh;
 				overflow: scroll;
+
+				border-bottom-left-radius: inherit;
+				border-bottom-right-radius: inherit;
+
 				pre
 				{
 					margin: 0px;
 					code
 					{
-						padding: 0px;
+						padding: 3vh;
+
+						span:hover
+						{
+							color: red;
+						}
 					}
 				}
 			}
