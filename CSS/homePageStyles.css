@@ -109,13 +109,13 @@
   	display: inline-block;
 }
 
-.bg2 {
+.turbine-image {
 	display: block;
   	width: 100%;
   	height: auto;
 }
 
-.image-overlay {
+.turbine-image-overlay {
 	position: absolute;
   	top: -20vh;
   	left: 0;
