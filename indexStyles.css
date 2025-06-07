@@ -37,7 +37,7 @@ html {
 	background-color: rgba(var(--Primaryrgb), 0.1);
 	backdrop-filter: blur(5px);
 	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
-	border-bottom-color: var(--Borders);
+	border-bottom-color: rgba(var(--Borderrgb), 1);
 	border-bottom-width: 0.1vh;
 	border-bottom-style: solid;
 
@@ -49,6 +49,7 @@ html {
 @keyframes topBarAnim {
 
 	0% {
+		border-bottom-color: rgba(var(--Borderrgb), 0);
 		padding-top: 0vh;
 		/*opacity: 0;*/
 		/*transform: translateY(-5vh);*/
@@ -59,6 +60,7 @@ html {
 	}
 
 	100% {
+		border-bottom-color: rgba(var(--Borderrgb), 1);
 		/*opacity: 1;*/
 		/*transform: translateY(0vh);*/
 	}
@@ -66,13 +68,25 @@ html {
 
 .TopBar {
 	z-index: 101;
-	
-	display: block;
+	position: relative;
+	display: inline;
 	box-sizing: border-box;
 	
 	
 	overflow:hidden;
 	font-family: 'Helvetica Neue';
+}
+
+.LinkedIn {
+	position: 10px 10px;
+	box-sizing: border-box;
+
+	border-width: 2px;
+
+}
+
+.linkedinimage {
+	height: 10vh;
 }
 
 
