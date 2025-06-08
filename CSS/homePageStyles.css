@@ -113,6 +113,8 @@
 	display: block;
   	width: 100%;
   	height: auto;
+	padding: 0;
+	margin: 0;
 }
 
 .turbine-image-overlay {
@@ -393,7 +395,6 @@
 }
 
 .drawer-grid {
-	
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start; /* or center, space-between, etc. */
