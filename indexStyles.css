@@ -5,6 +5,7 @@
 }
 
 html {
+	background-color: var(--color3);
 	font-size: 1vw
 }
 
@@ -37,7 +38,7 @@ html {
 	background-color: rgba(var(--Primaryrgb), 0.1);
 	backdrop-filter: blur(5px);
 	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
-	border-bottom-color: rgba(var(--Borderrgb), 1);
+	border-bottom-color: rgba(var(--Shelfborderrgb), 1);
 	border-bottom-width: 0.1vh;
 	border-bottom-style: solid;
 
@@ -49,7 +50,7 @@ html {
 @keyframes topBarAnim {
 
 	0% {
-		border-bottom-color: rgba(var(--Borderrgb), 0);
+		border-bottom-color: rgba(var(--Shelfborderrgb), 0);
 		padding-top: 0vh;
 		/*opacity: 0;*/
 		/*transform: translateY(-5vh);*/
@@ -60,7 +61,7 @@ html {
 	}
 
 	100% {
-		border-bottom-color: rgba(var(--Borderrgb), 1);
+		border-bottom-color: rgba(var(--Shelfborderrgb), 1);
 		/*opacity: 1;*/
 		/*transform: translateY(0vh);*/
 	}
@@ -249,7 +250,7 @@ body {
 
 /******************** Footer CSS ***********************/
 .footer {
-	background-color: hsla(0, 76%, 45%, 0);
+	background-color: var(--color3);
 	backdrop-filter: blur(10px);
 	/*box-shadow: var(--Border1) 0px 0px 0px 2px inset ;*/
 	

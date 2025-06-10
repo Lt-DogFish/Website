@@ -26,7 +26,7 @@
 	--TextInverted: rgb(255, 255, 255);
 	--SpecialText: rgb(255, 255, 255);
 	--Borders: rgb(36, 36, 36);
-	--BordersInverted: rgb(36, 36, 36);
+	--BordersInverted: rgb(255, 255, 255);
 
 	--Title: rgb(36, 36, 36);
 
@@ -51,4 +51,5 @@
 	--BackgroundColorrgb1: 255, 255, 255 ;
 	--BackgroundColorrgb2: 255, 255, 255 ;
 	--Borderrgb: 36, 36, 36 ;
+	--Shelfborderrgb: 252, 111, 83;
 }

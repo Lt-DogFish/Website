@@ -15,7 +15,7 @@
 	justify-items: left;
 	height: 100%;
 	width: 100%;
-	/*background: radial-gradient(circle, transparent 70%, black 100%);*/
+	/*background: radial-gradient(circle, transparent 60%, var(--Back) 100%);*/
 }
 
 .intro {
@@ -104,13 +104,16 @@
 	border-radius: 10px;
 }
 
-.turbine-image-wrapper {
+.bottom-section {
+	background-color: rgb(0, 0, 0);
 	position: relative;
   	display: inline-block;
+	height: auto;
+	
 }
 
 .turbine-image {
-	display: block;
+	
   	width: 100%;
   	height: auto;
 	padding: 0;
@@ -397,11 +400,12 @@
 .drawer-grid {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: flex-start; /* or center, space-between, etc. */
-	align-items: flex-start;     /* controls vertical alignment */
-	gap: 1rem;                   /* spacing between items */
-	background-color: black;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 1rem;
+	
 	padding: 1rem;
+	margin-top: -40vh;
 }
 
 
@@ -411,7 +415,7 @@
   	overflow: hidden; /* or scroll if you want scrollbars */
   	display: inline-block;
   	box-sizing: border-box;
-  	box-shadow: var(--BordersInverted) 0px 0px 0px 1px inset;
+  	box-shadow: var(--color3) 0px 0px 0px 1px inset;
   	background-color: rgba(var(--Cardrgb), 0.1);
   	backdrop-filter: blur(5px);
   	color: var(--TextInverted);
@@ -421,9 +425,9 @@
 
 
 .card:hover{
-	color: gold;
+	color: var(--color2);
 	/*box-shadow: var(--Borders) 0px 0px 0px 3px inset, var(--Primary) 0px 0px 20px 3px inset ;*/
-	box-shadow: var(--BordersInverted) 0px 0px 0px 3px inset;
+	box-shadow: var(--color2) 0px 0px 0px 3px inset;
 	transition: .3s cubic-bezier(.77,.12,.16,.95);
 	background-color: rgba(var(--Cardrgb),0.5);
 }
